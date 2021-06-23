@@ -1,0 +1,33 @@
+{
+  "name": "@alifd/scaffold-lite-js",
+  "version": "0.1.0",
+  "description": "轻量级模板，使用 JavaScript，仅包含基础的 Layout。",
+  "dependencies": {
+    "antd": "^4.16.3",
+    "jsqr": "^1.4.0",
+    "moment": "^2.29.1",
+    "react": "^16.4.1",
+    "react-dom": "^16.4.1"
+  },
+  "devDependencies": {
+    "@iceworks/spec": "^1.0.0",
+    "build-plugin-moment-locales": "^0.1.0",
+    "eslint": "^6.8.0",
+    "ice.js": "^1.0.0",
+    "stylelint": "^13.2.0"
+  },
+  "scripts": {
+    "start": "icejs start",
+    "build": "icejs build",
+    "lint": "npm run eslint && npm run stylelint",
+    "eslint": "eslint --cache --ext .js,.jsx,.ts,.tsx ./",
+    "eslint:fix": "npm run eslint -- --fix",
+    "stylelint": "stylelint \"**/*.{css,scss,less}\""
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/alibaba-fusion/materials/tree/master/scaffolds/scaffold-lite-js"
+  },
+  "private": true,
+  "originTemplate": "@alifd/scaffold-lite-js"
+}

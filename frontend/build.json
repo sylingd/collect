@@ -1,0 +1,19 @@
+{
+  "externals": {
+    "react": "window.React",
+    "react-dom": "window.ReactDOM",
+    "antd": "window.antd",
+    "jsqr": "window.jsQR",
+    "moment": "window.moment"
+  },
+  "plugins": [
+    [
+      "build-plugin-moment-locales",
+      {
+        "locales": [
+          "zh-cn"
+        ]
+      }
+    ]
+  ]
+}
