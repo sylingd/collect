@@ -4,7 +4,9 @@
     "react-dom": "window.ReactDOM",
     "antd": "window.antd",
     "jsqr": "window.jsQR",
-    "moment": "window.moment"
+    "moment": "window.moment",
+    "qs": "window.Qs",
+    "blueimp-md5": "window.md5"
   },
   "plugins": [
     [

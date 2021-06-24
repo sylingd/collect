@@ -4,13 +4,16 @@
   "description": "轻量级模板，使用 JavaScript，仅包含基础的 Layout。",
   "dependencies": {
     "antd": "^4.16.3",
+    "blueimp-md5": "^2.18.0",
     "jsqr": "^1.4.0",
     "moment": "^2.29.1",
+    "qs": "^6.10.1",
     "react": "^16.4.1",
     "react-dom": "^16.4.1"
   },
   "devDependencies": {
     "@iceworks/spec": "^1.0.0",
+    "@types/qs": "^6.9.6",
     "build-plugin-moment-locales": "^0.1.0",
     "eslint": "^6.8.0",
     "ice.js": "^1.0.0",

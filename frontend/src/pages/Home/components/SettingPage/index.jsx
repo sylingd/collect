@@ -1,17 +1,20 @@
-import { Button, message } from 'antd';
-import React, { useCallback, useEffect, useRef, useState } from 'react';
+import { Button, message } from "antd";
+import { request } from "ice";
+import React, { useCallback, useEffect, useRef, useState } from "react";
+import QRCode from "../QRCode";
 
 const SettingPage = () => {
   const canvasRef = useRef(null);
   const qrContainerRef = useRef(null);
-  const [qr, setQr] = useState('');
+  const [qr, setQr] = useState("");
   const qrcodeRef = useRef(null);
+
   const handleUploadQR = useCallback(() => {
-    const input = document.createElement('input');
-    input.type = 'file';
-    input.accept = 'image/*';
+    const input = document.createElement("input");
+    input.type = "file";
+    input.accept = "image/*";
     input.multiple = false;
-    input.style.display = 'none';
+    input.style.display = "none";
     document.body.appendChild(input);
 
     input.onchange = (e) => {
@@ -29,7 +32,7 @@ const SettingPage = () => {
       img.onload = () => {
         canvasRef.current.height = img.height;
         canvasRef.current.width = img.width;
-        const ctx = canvasRef.current.getContext('2d');
+        const ctx = canvasRef.current.getContext("2d");
         ctx.drawImage(img, 0, 0, img.width, img.height);
 
         URL.revokeObjectURL(url);
@@ -37,21 +40,21 @@ const SettingPage = () => {
         const imgData = ctx.getImageData(0, 0, img.width, img.height);
 
         const result = jsQR(imgData.data, imgData.width, imgData.height, {
-          inversionAttempts: 'dontInvert',
+          inversionAttempts: "dontInvert",
         });
 
         if (result === null) {
-          message.error('没有找到二维码');
+          message.error("没有找到二维码");
           return;
         }
 
         const code = result.data;
-        if (code.indexOf('https://qr.alipay.com/') !== 0 && code.indexOf('wxp://') !== 0) {
-          message.error('请选择支付宝或微信支付的二维码');
+        if (code.indexOf("https://qr.alipay.com/") !== 0 && code.indexOf("wxp://") !== 0) {
+          message.error("请选择支付宝或微信支付的二维码");
           return;
         }
 
-        message.success('二维码识别成功');
+        message.success("二维码识别成功");
         setQr(code);
       };
     };
@@ -59,22 +62,20 @@ const SettingPage = () => {
     input.click();
   }, []);
 
-  useEffect(() => {
-    if (!qr || !qrContainerRef.current) {
-      return;
-    }
-    if (qrcodeRef.current === null) {
-      qrcodeRef.current = new window.QRCode(qrContainerRef.current, {
-        text: qr,
-        width: 128,
-        height: 128,
-        colorDark: '#000000',
-        colorLight: '#ffffff',
-        correctLevel: QRCode.CorrectLevel.H,
-      });
-    } else {
-      qrcodeRef.current.makeCode(qr);
-    }
+  useEffect(async () => {
+    const setting = await request("setting");
+    setQr(setting.data.qr);
+  }, []);
+
+  const handleSave = useCallback(async () => {
+    await request({
+      url: "setting",
+      method: "POST",
+      data: {
+        qrcode: qr,
+      },
+    });
+    message.success("成功");
   }, [qr]);
 
   return (
@@ -82,14 +83,15 @@ const SettingPage = () => {
       <canvas
         ref={canvasRef}
         style={{
-          position: 'fixed',
-          left: '-1000px',
-          top: '-1000px',
+          position: "fixed",
+          left: "-1000px",
+          top: "-1000px",
         }}
       />
       <p>付款码设置</p>
-      <div id="qrcode" ref={qrContainerRef}></div>
-      <Button onClick={handleUploadQR}>上传</Button>
+      <QRCode text={qr} />
+      <Button onClick={handleUploadQR}>选择文件</Button>
+      <Button onClick={handleSave}>保存</Button>
     </div>
   );
 };

@@ -1,18 +1,42 @@
-import { Button, Form, Radio, Input, DatePicker } from 'antd';
+import { Button, DatePicker, Form, Input, message, Radio } from "antd";
+import { request } from "ice";
 import moment from "moment";
-import React from 'react';
+import React, { useCallback, useRef } from "react";
 
 const SubmitPage = () => {
+  const formRef = useRef(null);
+
+  const handleSubmit = useCallback(async (values) => {
+    const hide = message.loading("提交中", 0);
+    const result = await request({
+      url: "submit",
+      method: "POST",
+      data: {
+        ...values,
+        time: values.time.toDate().getTime(),
+      },
+    });
+    hide();
+    if (result.success) {
+      message.success("提交成功");
+      formRef.current.resetFields();
+    } else {
+      message.error(result.error);
+    }
+  }, []);
+
   return (
     <div>
       <Form
+        ref={formRef}
         labelCol={{ span: 4 }}
         wrapperCol={{ span: 20 }}
         layout="horizontal"
+        onFinish={handleSubmit}
         initialValues={{
-          platform: 'taobao',
+          platform: "taobao",
           time: new moment(),
-          order: ''
+          order: "",
         }}
       >
         <Form.Item label="平台" name="platform" rules={[{ required: true }]}>
@@ -31,11 +55,13 @@ const SubmitPage = () => {
           <Input />
         </Form.Item>
         <Form.Item label=" " colon={false}>
-          <Button type="primary" htmlType="submit">提交</Button>
+          <Button type="primary" htmlType="submit">
+            提交
+          </Button>
         </Form.Item>
       </Form>
     </div>
-  )
+  );
 };
 
 export default SubmitPage;
