@@ -5,6 +5,6 @@ import * as md5 from "blueimp-md5";
 export const setLogin = (user, password) => {
   if (typeof localStorage !== "undefined") {
     localStorage.setItem("user", user);
-    localStorage.setItem("password", md5(password));
+    localStorage.setItem("password", password);
   }
 };

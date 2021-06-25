@@ -13,6 +13,6 @@ namespace App\Model;
 use Sy\ModelAbstract;
 
 class User extends ModelAbstract {
-	protected $_table_name = 'user';
+	protected $_table_name = 'fan_user';
 	protected $_primary_key = 'id';
 }

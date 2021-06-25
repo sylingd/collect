@@ -8,8 +8,11 @@ $cfg = [
 		'extension' => 'phtml'
 	],
 	'cache' => [
-		'type' => 'yac',
-		'prefix' => 'v_'
+		'type' => 'redis'
+	],
+	'redis' => [
+		'host' => 'localhost',
+		'port' => 6379
 	],
 	'mysql' => [
 		'host' => 'localhost',
@@ -18,8 +21,8 @@ $cfg = [
 		'password' => 'root',
 		'database' => 'demo'
 	],
-	'modules' => ['Api', 'Index'],
-	'module' => 'Index',
+	'modules' => ['Api'],
+	'module' => 'Api',
 	'charset' => 'UTF-8'
 ];
 return [

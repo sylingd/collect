@@ -12,7 +12,7 @@ namespace App\Model;
 
 use Sy\ModelAbstract;
 
-class Token extends ModelAbstract {
-	protected $_table_name = 'token';
+class Order extends ModelAbstract {
+	protected $_table_name = 'fan_order';
 	protected $_primary_key = 'id';
 }

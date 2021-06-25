@@ -2,7 +2,7 @@ import { request } from "ice";
 
 export const getList = async (page) => {
   const result = await request({
-    url: "list",
+    url: "order/list",
     params: {
       page,
     },

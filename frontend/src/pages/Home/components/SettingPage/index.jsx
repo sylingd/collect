@@ -63,13 +63,17 @@ const SettingPage = () => {
   }, []);
 
   useEffect(async () => {
-    const setting = await request("setting");
-    setQr(setting.data.qr);
+    const setting = await request("setting/load");
+    setQr(setting.data.qrcode);
   }, []);
 
   const handleSave = useCallback(async () => {
+    if (!qr) {
+      message.error("二维码为空，无法保存");
+      return;
+    }
     await request({
-      url: "setting",
+      url: "setting/save",
       method: "POST",
       data: {
         qrcode: qr,

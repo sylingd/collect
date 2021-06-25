@@ -22,4 +22,17 @@ class Utils {
 		}
 		return json_encode($result);
 	}
+
+	public static function isValidUserName($user) {
+		if (!is_string($user)) {
+			return 1;
+		}
+		if (strlen($user) < 4 || strlen($user) > 16) {
+			return 2;
+		}
+		if (!preg_match('/^([a-zA-Z])([a-zA-Z0-9_]+)$/', $user)) {
+			return 3;
+		}
+		return 0;
+	}
 }

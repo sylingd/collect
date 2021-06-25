@@ -9,7 +9,7 @@ const SubmitPage = () => {
   const handleSubmit = useCallback(async (values) => {
     const hide = message.loading("提交中", 0);
     const result = await request({
-      url: "submit",
+      url: "order/submit",
       method: "POST",
       data: {
         ...values,
@@ -39,7 +39,7 @@ const SubmitPage = () => {
           order: "",
         }}
       >
-        <Form.Item label="平台" name="platform" rules={[{ required: true }]}>
+        <Form.Item label="平台" name="platform" rules={[{ required: true, message: "请选择平台" }]}>
           <Radio.Group>
             <Radio value="taobao">淘宝</Radio>
             <Radio value="jd">京东</Radio>
@@ -48,10 +48,10 @@ const SubmitPage = () => {
             <Radio value="other">其他</Radio>
           </Radio.Group>
         </Form.Item>
-        <Form.Item label="下单时间" name="time" rules={[{ required: true }]}>
+        <Form.Item label="下单时间" name="time" rules={[{ required: true, message: "请选择下单时间" }]}>
           <DatePicker showTime format="YYYY-MM-DD HH:mm" />
         </Form.Item>
-        <Form.Item label="订单号" name="order" rules={[{ required: true }]}>
+        <Form.Item label="订单号" name="order" rules={[{ required: true, message: "请填写订单号" }]}>
           <Input />
         </Form.Item>
         <Form.Item label=" " colon={false}>
