@@ -1,5 +1,6 @@
 import { Modal, Tabs } from "antd";
 import React, { useCallback, useState } from "react";
+import Jd from "./components/Jd";
 import ListPage from "./components/ListPage";
 import LoginForm from "./components/LoginForm";
 import SettingPage from "./components/SettingPage";
@@ -22,13 +23,16 @@ const Home = () => {
         </Modal>
       ) : (
         <Tabs type="card">
-          <TabPane tab="提交订单" key="1">
+          <TabPane tab="提交订单" key="submit">
             <SubmitPage />
           </TabPane>
-          <TabPane tab="查询" key="2">
+          <TabPane tab="京东返利" key="jd">
+            <Jd />
+          </TabPane>
+          <TabPane tab="查询" key="order">
             <ListPage />
           </TabPane>
-          <TabPane tab="设置" key="3">
+          <TabPane tab="设置" key="setting">
             <SettingPage />
           </TabPane>
         </Tabs>
