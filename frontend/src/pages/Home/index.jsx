@@ -9,7 +9,7 @@ import SubmitPage from "./components/SubmitPage";
 const { TabPane } = Tabs;
 
 const Home = () => {
-  const [showLogin, setShowLogin] = useState(false);
+  const [showLogin, setShowLogin] = useState(true);
 
   const handleLoginSuccess = useCallback(() => {
     setShowLogin(false);
