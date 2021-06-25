@@ -5,19 +5,19 @@ import React from "react";
 import { getList } from "./utils";
 
 const statusMap = {
-  WAIT: {
+  1: {
     type: "default",
     text: "已提交",
   },
-  CONFIRMED: {
+  2: {
     type: "processing",
     text: "已确认",
   },
-  CLOSED: {
+  3: {
     type: "success",
     text: "已结算",
   },
-  ERROR: {
+  4: {
     type: "error",
     text: "错误",
   },
@@ -37,8 +37,8 @@ const columns = [
   },
   {
     title: "订单号",
-    dataIndex: "order",
-    key: "order",
+    dataIndex: "orderId",
+    key: "orderId",
   },
   {
     title: "状态",
