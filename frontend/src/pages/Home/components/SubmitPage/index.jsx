@@ -35,7 +35,7 @@ const SubmitPage = () => {
         layout="horizontal"
         onFinish={handleSubmit}
         initialValues={{
-          platform: "taobao",
+          platform: 1,
           time: new moment(),
           orderId: "",
         }}
