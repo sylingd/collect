@@ -1,6 +1,7 @@
+import { platform } from "@/utils";
 import { Table, Tag } from "antd";
 import { useRequest } from "ice";
-import React, { useMemo, useState } from "react";
+import React from "react";
 import { getList } from "./utils";
 
 const statusMap = {
@@ -27,6 +28,7 @@ const columns = [
     title: "平台",
     dataIndex: "platform",
     key: "platform",
+    render: (k) => platform[k],
   },
   {
     title: "下单时间",

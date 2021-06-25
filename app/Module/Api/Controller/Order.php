@@ -49,7 +49,7 @@ class Order extends ControllerAbstract {
 			'user' => $request->user['id'],
 			'platform' => intval($request->post['platform']),
 			'time' => date('Y-m-d H:i:s', $request->post['time']),
-			'order' => $request->post['order'],
+			'orderId' => $request->post['orderId'],
 			'status' => 1
 		]);
 		return Utils::getResult([

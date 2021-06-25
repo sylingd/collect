@@ -1,3 +1,4 @@
+import { platform } from "@/utils";
 import { Button, DatePicker, Form, Input, message, Radio } from "antd";
 import { request } from "ice";
 import moment from "moment";
@@ -36,22 +37,22 @@ const SubmitPage = () => {
         initialValues={{
           platform: "taobao",
           time: new moment(),
-          order: "",
+          orderId: "",
         }}
       >
         <Form.Item label="平台" name="platform" rules={[{ required: true, message: "请选择平台" }]}>
           <Radio.Group>
-            <Radio value="taobao">淘宝</Radio>
-            <Radio value="jd">京东</Radio>
-            <Radio value="eleme">饿了么</Radio>
-            <Radio value="pdd">拼多多</Radio>
-            <Radio value="other">其他</Radio>
+            {Object.keys(platform).map((x) => (
+              <Radio value={x} key={x}>
+                {platform[x]}
+              </Radio>
+            ))}
           </Radio.Group>
         </Form.Item>
         <Form.Item label="下单时间" name="time" rules={[{ required: true, message: "请选择下单时间" }]}>
           <DatePicker showTime format="YYYY-MM-DD HH:mm" />
         </Form.Item>
-        <Form.Item label="订单号" name="order" rules={[{ required: true, message: "请填写订单号" }]}>
+        <Form.Item label="订单号" name="orderId" rules={[{ required: true, message: "请填写订单号" }]}>
           <Input />
         </Form.Item>
         <Form.Item label=" " colon={false}>

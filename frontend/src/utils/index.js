@@ -8,3 +8,11 @@ export const setLogin = (user, password) => {
     localStorage.setItem("password", password);
   }
 };
+
+export const platform = {
+  1: '淘宝',
+  2: '京东',
+  3: '饿了么',
+  4: '拼多多',
+  20: '其他',
+}
