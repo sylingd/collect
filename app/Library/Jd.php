@@ -72,7 +72,10 @@ class Jd {
     if (!isset($search['data']['unionGoods']) || count($search['data']['unionGoods']) === 0) {
       return null;
     }
-    $good = $search['data']['unionGoods'][0];
+    if (isset($search['data']['unionRecommendGoods']) && $search['data']['unionRecommendGoods'] === null) {
+      return null;
+    }
+    $good = $search['data']['unionGoods'][0][0];
 
     $getCodeData = [
       'isPinGou' => $good['isPinGou'],
