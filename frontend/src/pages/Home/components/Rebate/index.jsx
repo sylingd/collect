@@ -80,6 +80,7 @@ const Rebate = () => {
               <Form.Item label="商品">
                 <span className="ant-form-text">
                   {data.skuName}
+                  {data.isPinGou && <Tag color="error">京喜</Tag>}
                   {data.isZY ? <Tag color="success">自营</Tag> : <Tag color="processing">非自营</Tag>}
                 </span>
               </Form.Item>

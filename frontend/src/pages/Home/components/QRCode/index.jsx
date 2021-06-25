@@ -19,7 +19,7 @@ const QRCode = (props) => {
         correctLevel: window.QRCode.CorrectLevel.H,
       });
     } else {
-      qrcodeRef.current.makeCode(qr);
+      qrcodeRef.current.makeCode(text);
     }
   }, [text, size]);
 
