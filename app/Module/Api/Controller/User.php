@@ -15,7 +15,7 @@ use Sy\ControllerAbstract;
 use Sy\Http\Request;
 use App\Service\User as UserService;
 
-class Order extends ControllerAbstract {
+class User extends ControllerAbstract {
 	private $user;
 	public function __construct(UserService $user) {
 		$this->user = $user;
