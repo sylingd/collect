@@ -58,7 +58,8 @@ class Jd {
       'json' => true,
       'cookie' => self::getCookie(),
       'header' => [
-        'Content-type: application/json;charset=UTF-8'
+        'Content-type: application/json;charset=UTF-8',
+        'Referer: https://union.jd.com/'
       ],
       'post' => json_encode([
         'pageNo' => 1,
@@ -101,7 +102,8 @@ class Jd {
       'json' => true,
       'cookie' => self::getCookie(),
       'header' => [
-        'Content-type: application/json;charset=UTF-8'
+        'Content-type: application/json;charset=UTF-8',
+        'Referer: https://union.jd.com/'
       ],
       'post' => json_encode([
         'data' => $getCodeData
