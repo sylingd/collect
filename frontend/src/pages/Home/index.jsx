@@ -26,11 +26,11 @@ const Home = () => {
           <TabPane tab="提交订单" key="submit">
             <SubmitPage />
           </TabPane>
-          <TabPane tab="查询" key="order">
-            <ListPage />
-          </TabPane>
           <TabPane tab="自助返利" key="rebate">
             <Rebate />
+          </TabPane>
+          <TabPane tab="查询" key="order">
+            <ListPage />
           </TabPane>
           <TabPane tab="设置" key="setting">
             <SettingPage />

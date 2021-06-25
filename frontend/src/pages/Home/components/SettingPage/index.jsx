@@ -94,8 +94,10 @@ const SettingPage = () => {
       />
       <p>付款码设置</p>
       <QRCode text={qr} />
-      <Button onClick={handleUploadQR}>选择文件</Button>
-      <Button onClick={handleSave}>保存</Button>
+      <p>
+        <Button onClick={handleUploadQR}>选择文件</Button>
+        <Button onClick={handleSave}>保存</Button>
+      </p>
     </div>
   );
 };
