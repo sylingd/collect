@@ -78,6 +78,7 @@ class Jd {
     $good = $search['data']['unionGoods'][0][0];
 
     $getCodeData = [
+      'couponLink' => '',
       'isPinGou' => $good['isPinGou'],
       'isSmartGraphics' => 0,
       'materialId' => $good['skuId'],
@@ -87,12 +88,14 @@ class Jd {
       'promotionType' => 3,
       'promotionTypeId' => 4100447096,
       'receiveType' => 'cps',
-      'wareUrl' => 'http://item.jd.com/' . $good['skuId'] . '.html',
       'requestId' => $good['requestId'],
+      'wareUrl' => 'http://item.jd.com/' . $good['skuId'] . '.html',
     ];
     // 如果有优惠券的话
     if (isset($good['couponLink'])) {
       $getCodeData['couponLink'] = $good['couponLink'];
+    } else {
+      unset($getCodeData['couponLink']);
     }
     $getCode = Utils::fetchUrl('https://union.jd.com/api/receivecode/getCode', [
       'json' => true,
