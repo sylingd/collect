@@ -8,6 +8,7 @@
     "qs": "window.Qs",
     "blueimp-md5": "window.md5"
   },
+  "modularImportRuntime": true,
   "plugins": [
     [
       "build-plugin-moment-locales",
