@@ -34,7 +34,9 @@ const Rebate = () => {
   const handleSearch = useCallback((value) => {
     // 尝试获取商品ID
     let id = null;
-    if (/item\.jd\.com\/(\d+)\.html/.test(value)) {
+    if (/^(\d+)$/.test(value)) {
+      id = value
+    } else if (/item\.jd\.com\/(\d+)\.html/.test(value)) {
       const res = /item\.jd\.com\/(\d+)\.html/.exec(value);
       id = res[1];
     } else if (/item\.m\.jd\.com\/product\/(\d+)\.html/.test(value)) {
@@ -65,7 +67,7 @@ const Rebate = () => {
           </Select>
         }
         enterButton="获取"
-        placeholder="粘贴商品链接，同时支持PC链接、移动链接和短链接"
+        placeholder="输入商品ID或商品链接，支持PC链接、移动链接和短链接"
         loading={loading}
         onSearch={handleSearch}
       />
