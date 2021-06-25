@@ -80,7 +80,6 @@ class Jd {
     $getCodeData = [
       'couponLink' => '',
       'isPinGou' => $good['isPinGou'],
-      'isSmartGraphics' => 0,
       'materialId' => $good['skuId'],
       'materialType' => 1,
       'planId' => $good['planId'],
@@ -88,8 +87,9 @@ class Jd {
       'promotionType' => 3,
       'promotionTypeId' => 4100447096,
       'receiveType' => 'cps',
-      'requestId' => $good['requestId'],
       'wareUrl' => 'http://item.jd.com/' . $good['skuId'] . '.html',
+      'isSmartGraphics' => 0,
+      'requestId' => $good['requestId'],
     ];
     // 如果有优惠券的话
     if (isset($good['couponLink'])) {
