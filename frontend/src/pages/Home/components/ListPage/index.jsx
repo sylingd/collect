@@ -1,5 +1,5 @@
 import { platform } from "@/utils";
-import { Table, Tag } from "antd";
+import { Button, Table, Tag } from "antd";
 import { useRequest } from "ice";
 import React from "react";
 import { getList } from "./utils";
@@ -54,7 +54,7 @@ const columns = [
 ];
 
 const ListPage = () => {
-  const { data, loading, request } = useRequest(getList, {
+  const { data, loading, refresh, request } = useRequest(getList, {
     manual: false,
     initialData: {
       total: 0,
@@ -65,19 +65,22 @@ const ListPage = () => {
   });
 
   return (
-    <Table
-      rowKey="id"
-      loading={loading}
-      columns={columns}
-      dataSource={data.list}
-      pagination={{
-        total: data.total,
-        current: data.page,
-        pageSize: data.pageSize,
-        showSizeChanger: false,
-        onChange: (page) => request(page),
-      }}
-    />
+    <div>
+      <Button onClick={refresh}>刷新</Button>
+      <Table
+        rowKey="id"
+        loading={loading}
+        columns={columns}
+        dataSource={data.list}
+        pagination={{
+          total: data.total,
+          current: data.page,
+          pageSize: data.pageSize,
+          showSizeChanger: false,
+          onChange: (page) => request(page),
+        }}
+      />
+    </div>
   );
 };
 
