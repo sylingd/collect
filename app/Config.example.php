@@ -2,6 +2,7 @@
 $cfg = [
 	'namespace' => 'App\\',
 	'database' => 'mysql',
+	'jd_cookie' => '/path/to/cookie',
 	'template' => [
 		'engine' => 'Sy\\Http\\Template',
 		'auto' => false,

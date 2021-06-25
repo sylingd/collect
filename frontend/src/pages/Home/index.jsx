@@ -1,6 +1,6 @@
 import { Modal, Tabs } from "antd";
 import React, { useCallback, useState } from "react";
-import Jd from "./components/Jd";
+import Rebate from "./components/Rebate";
 import ListPage from "./components/ListPage";
 import LoginForm from "./components/LoginForm";
 import SettingPage from "./components/SettingPage";
@@ -9,7 +9,7 @@ import SubmitPage from "./components/SubmitPage";
 const { TabPane } = Tabs;
 
 const Home = () => {
-  const [showLogin, setShowLogin] = useState(true);
+  const [showLogin, setShowLogin] = useState(false);
 
   const handleLoginSuccess = useCallback(() => {
     setShowLogin(false);
@@ -26,11 +26,11 @@ const Home = () => {
           <TabPane tab="提交订单" key="submit">
             <SubmitPage />
           </TabPane>
-          <TabPane tab="京东返利" key="jd">
-            <Jd />
-          </TabPane>
           <TabPane tab="查询" key="order">
             <ListPage />
+          </TabPane>
+          <TabPane tab="自助返利" key="rebate">
+            <Rebate />
           </TabPane>
           <TabPane tab="设置" key="setting">
             <SettingPage />

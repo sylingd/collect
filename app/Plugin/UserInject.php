@@ -39,7 +39,7 @@ class UserInject {
 				}
 			}
 		}
-		if ($request->user === null && strtolower($request->module) === "api" && strtolower($request->controller) !== "user" && strtolower($request->controller) !== "common") {
+		if ($request->user === null && strtolower($request->module) === "api" && strtolower($request->controller) !== "user" && strtolower($request->controller) !== "rebate") {
 			echo Utils::getResult([
 				'error' => '登录失败'
 			]);
