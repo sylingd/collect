@@ -57,6 +57,9 @@ class Jd {
     $search = Utils::fetchUrl('https://union.jd.com/api/goods/search', [
       'json' => true,
       'cookie' => self::getCookie(),
+      'header' => [
+        'Content-type: application/json;charset=UTF-8'
+      ],
       'post' => json_encode([
         'pageNo' => 1,
         'pageSize' => 1,
@@ -91,6 +94,9 @@ class Jd {
     $getCode = Utils::fetchUrl('https://union.jd.com/api/receivecode/getCode', [
       'json' => true,
       'cookie' => self::getCookie(),
+      'header' => [
+        'Content-type: application/json;charset=UTF-8'
+      ],
       'post' => json_encode([
         'data' => $getCodeData
       ])
