@@ -51,11 +51,11 @@ class User {
 		return $user;
 	}
 
-	public function set($set, $cols, $filter = null) {
-		if (is_string($filter) || is_numeric($filter)) {
-			$this->removeCache($filter);
+	public function set($set, $id) {
+		if (is_string($id) || is_numeric($id)) {
+			$this->removeCache($id);
 		}
-		return $this->user->set($set, $cols, $filter);
+		return $this->user->set($set, $id);
 	}
 
 	public function add($data) {
