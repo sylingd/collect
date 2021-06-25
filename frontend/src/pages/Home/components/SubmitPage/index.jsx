@@ -14,7 +14,7 @@ const SubmitPage = () => {
       method: "POST",
       data: {
         ...values,
-        time: values.time.toDate().getTime(),
+        time: Math.floor(values.time.toDate().getTime() / 1000),
       },
     });
     hide();
