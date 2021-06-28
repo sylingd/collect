@@ -69,12 +69,16 @@ class Jd {
       ])
     ]);
 
+    if ($search['code'] === 80001) {
+      return '系统错误，请联系管理员处理';
+    }
+
     $good = null;
     if (!isset($search['data']['unionGoods']) || count($search['data']['unionGoods']) === 0) {
-      return null;
+      return '未找到该商品，可能该商品不支持返利';
     }
     if (isset($search['data']['unionRecommendGoods']) && $search['data']['unionRecommendGoods'] === null) {
-      return null;
+      return '未找到该商品，可能该商品不支持返利';
     }
     $good = $search['data']['unionGoods'][0][0];
 
@@ -109,6 +113,10 @@ class Jd {
         'data' => $getCodeData
       ])
     ]);
+
+    // $result = [
+    //   'name' => 
+    // ];
 
     $good['union'] = [
       'url' => $getCode['data']['data']['shortCode']

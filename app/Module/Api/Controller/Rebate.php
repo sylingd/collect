@@ -1,4 +1,5 @@
 <?php
+
 /**
  * 用户
  * 
@@ -8,6 +9,7 @@
  * @link https://www.sylingd.com/
  * @copyright Copyright (c) 2019 ShuangYa
  */
+
 namespace App\Module\Api\Controller;
 
 use App\Library\Jd;
@@ -19,9 +21,9 @@ class Rebate extends ControllerAbstract {
   public function jdAction(Request $request) {
     $id = $request->get['id'];
     $result = Jd::getUrl($id);
-    if ($result === null) {
+    if (is_string($result)) {
       return Utils::getResult([
-        'error' => '未找到该商品，可能该商品不支持返利'
+        'error' => $result
       ]);
     }
     return Utils::getResult($result);
