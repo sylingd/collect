@@ -35,4 +35,18 @@ class Taobao {
 
     return $result['data'];
   }
+
+  public static function login() {
+    $apiPrefix = App::$config->get('taobao_api');
+    if (empty($apiPrefix)) {
+      return '暂不支持淘宝链接转换，请联系管理员';
+    }
+
+    $api = App::$config->get('taobao_api')  . '/login';
+    $result = Utils::fetchUrl($api, [
+      'json' => true
+    ]);
+
+    return $result['data'];
+  }
 }

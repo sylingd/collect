@@ -41,7 +41,8 @@ class User extends ControllerAbstract {
 			]);
 		}
 		return Utils::getResult([
-			'id' => $userInfo['id']
+			'id' => $userInfo['id'],
+			'isAdmin' => $userInfo['id'] == 1
 		]);
 	}
 

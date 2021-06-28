@@ -39,11 +39,19 @@ class UserInject {
 				}
 			}
 		}
-		if ($request->user === null && strtolower($request->module) === "api" && strtolower($request->controller) !== "user" && strtolower($request->controller) !== "rebate") {
-			echo Utils::getResult([
-				'error' => '登录失败'
-			]);
-			return false;
+		if (strtolower($request->module) === "api" && strtolower($request->controller) !== "user" && strtolower($request->controller) !== "rebate") {
+			if ($request->user === null) {
+				echo Utils::getResult([
+					'error' => '登录失败'
+				]);
+				return false;
+			}
+			if (strtolower($request->controller) === "admin" && $request->user['id'] != 1) {
+				echo Utils::getResult([
+					'error' => '您不是管理员，无法进行此操作'
+				]);
+				return false;
+			}
 		}
 	}
 }
