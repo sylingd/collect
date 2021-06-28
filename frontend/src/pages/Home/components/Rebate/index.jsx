@@ -7,8 +7,9 @@ const { Search } = Input;
 
 const load = async (platform, id) => {
   const result = await request({
-    url: `rebate/${platform}`,
+    url: "rebate/convert",
     params: {
+      platform,
       id,
     },
   });

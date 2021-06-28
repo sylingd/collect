@@ -54,6 +54,9 @@ class Utils {
 			curl_setopt($ch, CURLOPT_POST, 1);
 			curl_setopt($ch, CURLOPT_POSTFIELDS, $data['post']);
 		}
+		if (isset($data['timeout'])) {
+			curl_setopt($ch, CURLOPT_TIMEOUT, $data['timeout']);
+		}
 		curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
 		curl_setopt($ch, CURLOPT_HEADER, 0);
 		$r = curl_exec($ch);

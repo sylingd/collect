@@ -82,6 +82,34 @@ class Jd {
     if (isset($search['data']['unionRecommendGoods']) && $search['data']['unionRecommendGoods'] === null) {
       return '未找到该商品，可能该商品不支持返利';
     }
+
+    // 尝试拉一下GWD的API，看看有没有优惠券
+    $gwd = Utils::fetchUrl('https://m.gwdang.com/trend/data_new' . http_build_query([
+      'opt' => 'product',
+      'dp_id' => $id . '-3',
+      'search_url' => 'https://item.jd.com/' + $id . '.html',
+      'period' => 180,
+      'from' => 'wx_1'
+    ]), [
+      'json' => true,
+      'timeout' => 3
+    ]);
+    if (is_array($gwd) && isset($gwd['data']) && isset($gwd['data']['dp_info']) && isset($gwd['data']['dp_info']['coupon'])) {
+      $url = $gwd['data']['dp_info']['coupon']['url'];
+      $discount = intval($gwd['data']['dp_info']['coupon']['amount']);
+      if (!isset($good['couponDiscount']) || $good['couponDiscount'] < $discount) {
+        parse_str(parse_url($url, PHP_URL_QUERY), $query);
+        $query = array_filter($query, function($val) {
+          return strpos($val, 'https://coupon.m.jd.com') === 0;
+        });
+        if (count($query) > 0) {
+          $good['couponDiscount'] = $discount;
+          $good['couponLink'] = current($query);
+        }
+      }
+    }
+
+
     $good = $search['data']['unionGoods'][0][0];
 
     $getCodeData = [
