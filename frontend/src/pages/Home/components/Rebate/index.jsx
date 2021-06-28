@@ -30,24 +30,33 @@ const Rebate = () => {
     manual: true,
   });
 
+  const tokenRef = useRef(null);
   const platform = useRef("jd");
   const handleSearch = useCallback((value) => {
     // 尝试获取商品ID
     let id = null;
-    if (/^(\d+)$/.test(value)) {
-      id = value
-    } else if (/item\.jd\.com\/(\d+)\.html/.test(value)) {
-      const res = /item\.jd\.com\/(\d+)\.html/.exec(value);
-      id = res[1];
-    } else if (/item\.m\.jd\.com\/product\/(\d+)\.html/.test(value)) {
-      const res = /item\.m\.jd\.com\/product\/(\d+)\.html/.exec(value);
-      id = res[1];
-    } else if (/https?:\/\/u\.jd\.com\/(\w+)/.test(value)) {
-      const res = /https?:\/\/u\.jd\.com\/(\w+)/.exec(value);
-      id = res[0];
-    } else {
-      message.error("无法识别链接");
-      return;
+    if (platform.current === "jd") {
+      if (/^(\d+)$/.test(value)) {
+        id = value;
+      } else if (/item\.jd\.com\/(\d+)\.html/.test(value)) {
+        const res = /item\.jd\.com\/(\d+)\.html/.exec(value);
+        id = res[1];
+      } else if (/item\.m\.jd\.com\/product\/(\d+)\.html/.test(value)) {
+        const res = /item\.m\.jd\.com\/product\/(\d+)\.html/.exec(value);
+        id = res[1];
+      } else if (/https?:\/\/u\.jd\.com\/(\w+)/.test(value)) {
+        const res = /https?:\/\/u\.jd\.com\/(\w+)/.exec(value);
+        id = res[0];
+      } else {
+        message.error("无法识别链接");
+        return;
+      }
+    } else if (platform.current === "taobao") {
+      if (/^(\d+)$/.test(value)) {
+        id = `https://item.taobao.com/item.htm?id=${value}`;
+      } else {
+        id = value;
+      }
     }
     doSearch(platform.current, id);
   }, []);
@@ -56,7 +65,28 @@ const Rebate = () => {
     platform.current = value;
   }, []);
 
-  console.log(data);
+  const handleTokenFocus = useCallback(() => {
+    if (tokenRef.current) {
+      const input = tokenRef.current.input;
+      input.setSelectionRange(0, input.value.length);
+    }
+  }, []);
+  const handleCopyToken = useCallback(() => {
+    if (tokenRef.current) {
+      const input = tokenRef.current.input;
+      try {
+        navigator.clipboard.writeText(input.value);
+        message.success("已复制");
+        return;
+      } catch (e) {
+        // ignore
+      }
+      tokenRef.current.focus();
+      input.setSelectionRange(0, input.value.length);
+      document.execCommand("copy");
+      message.success("已复制");
+    }
+  }, []);
 
   return (
     <div className="page-rebate">
@@ -78,42 +108,53 @@ const Rebate = () => {
           }}
         >
           {data && (
-            <Form labelCol={{ span: 4 }} wrapperCol={{ span: 20 }} layout="horizontal">
+            <Form labelCol={{ span: 4 }} wrapperCol={{ span: 20 }} layout="horizontal" initialValues={data}>
               <Form.Item label="商品">
                 <span className="ant-form-text">
-                  {data.skuName}
-                  {data.isPinGou && <Tag color="error">京喜</Tag>}
-                  {data.isZY ? <Tag color="success">自营</Tag> : <Tag color="processing">非自营</Tag>}
+                  {data.name}
+                  <span className="tags">
+                    {data.tag.map((x, index) => (
+                      <Tag key={index} color={x.color}>
+                        {x.text}
+                      </Tag>
+                    ))}
+                    {data.coupon && (
+                      <Tag color="warning">
+                        满 {data.total} 减 {data.discount}
+                      </Tag>
+                    )}
+                  </span>
                 </span>
               </Form.Item>
-              {data.couponLink && (
-                <Form.Item label="优惠券">
-                  <span className="ant-form-text">
-                    满 {data.couponQuota} 减 {data.couponDiscount}
-                  </span>
-                </Form.Item>
-              )}
               <Form.Item label="价格">
-                <span className="ant-form-text">{data.finalPrice}</span>
+                <span className="ant-form-text">{data.price}</span>
               </Form.Item>
               <Form.Item label="预计返利">
-                <span className="ant-form-text">
-                  普通会员 ￥{data.wlCommission}({data.wlCommissionRatio}%)
-                </span>
-                {typeof data.plusCommissionShare !== "undefined" && (
-                  <span className="ant-form-text">
-                    PLUS会员 ￥{Math.round(data.finalPrice * data.plusCommissionShare) / 100}({data.plusCommissionShare}
-                    %)
+                {data.commission.map((x, index) => (
+                  <span key={index} className="ant-form-text">
+                    {x.type} ￥{x.amount}({x.rate}%)
                   </span>
-                )}
+                ))}
               </Form.Item>
-              {data.union.coupon && (
-                <Form.Item label="扫码领券">
-                  <QRCode size={100} text={data.union.coupon} />
+              {data.token && (
+                <Form.Item label="口令" name="token">
+                  <Input.Search
+                    ref={tokenRef}
+                    onFocus={handleTokenFocus}
+                    readOnly
+                    onSearch={handleCopyToken}
+                    enterButton="复制"
+                  />
                 </Form.Item>
               )}
+              {data.coupon &&
+                data.coupon.qrcode(
+                  <Form.Item label="扫码领券">
+                    <QRCode size={120} text={data.coupon.qrcode} />
+                  </Form.Item>
+                )}
               <Form.Item label="扫码下单">
-                <QRCode size={100} text={data.union.url} />
+                <QRCode size={120} text={data.qrcode} />
               </Form.Item>
             </Form>
           )}

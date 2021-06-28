@@ -81,7 +81,7 @@ const LoginForm = (props) => {
             },
           ]}
         >
-          <Input />
+          <Input.Password />
         </Form.Item>
         <Form.Item label=" " colon={false}>
           <Button type="primary" style={{ marginRight: "8px" }} onClick={() => handleLogin("login")}>

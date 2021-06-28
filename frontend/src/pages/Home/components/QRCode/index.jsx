@@ -30,8 +30,11 @@ const QRCode = (props) => {
     if (text.indexOf("https://qr.alipay.com/") === 0) {
       return "https://img.alicdn.com/tfs/TB1ID6DkZVl614jSZKPXXaGjpXa-488-492.png";
     }
-    if (text.indexOf("jd.com/") >= 0) {
+    if (text.indexOf(".jd.com/") >= 0) {
       return "https://ae01.alicdn.com/kf/H3e7b0fdc21f74c5d9c73bbb19ea28f0dj.png";
+    }
+    if (text.indexOf(".taobao.com/") >= 0 || text.indexOf(".tb.cn/") >= 0) {
+      return "https://img.alicdn.com/tps/i3/T1OjaVFl4dXXa.JOZB-114-114.png";
     }
     return null;
   }, [text]);

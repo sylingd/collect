@@ -1,4 +1,5 @@
 <?php
+
 /**
  * JD
  * 
@@ -8,6 +9,7 @@
  * @link https://www.sylingd.com/
  * @copyright Copyright (c) 2019 ShuangYa
  */
+
 namespace App\Library;
 
 use Sy\App;
@@ -114,16 +116,57 @@ class Jd {
       ])
     ]);
 
-    // $result = [
-    //   'name' => 
-    // ];
-
-    $good['union'] = [
-      'url' => $getCode['data']['data']['shortCode']
+    $result = [
+      'name' => $good['skuName'],
+      'commission' => [
+        [
+          'type' => '普通会员',
+          'amount' => $good['wlCommission'],
+          'rate' => $good['wlCommissionRatio'],
+        ]
+      ],
+      'qrcode' => $getCode['data']['data']['shortCode'],
+      'price' => $good['finalPrice'],
+      'tag' => []
     ];
 
+    if (isset($good['plusCommissionShare'])) {
+      $result['commission'][] = [
+        'type' => 'PLUS会员',
+        'amount' => round(($good['finalPrice'] * $good['plusCommissionShare']) / 100),
+        'rate' => $good['plusCommissionShare']
+      ];
+    }
+
+    if (isset($good['couponLink'])) {
+      $result['coupon'] = [
+        'total' => $good['couponQuota'],
+        'discount' => $good['couponDiscount'],
+        'qrcode' => ''
+      ];
+    }
+
     if (isset($getCode['data']['data']['couponShortCode'])) {
-      $good['union']['coupon'] = $getCode['data']['data']['couponShortCode'];
+      $result['coupon']['qrcode'] = $getCode['data']['data']['couponShortCode'];
+    }
+
+    if ($good['isPinGou']) {
+      $result['tag'][] = [
+        'color' => 'error',
+        'text' => '京喜'
+      ];
+    }
+
+    if ($good['isZY']) {
+      $result['tag'][] = [
+        'color' => 'success',
+        'text' => '自营'
+      ];
+    } else {
+      $result['tag'][] = [
+        'color' => 'processing',
+        'text' => '非自营'
+      ];
     }
 
     return $good;
