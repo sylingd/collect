@@ -147,12 +147,11 @@ const Rebate = () => {
                   />
                 </Form.Item>
               )}
-              {data.coupon &&
-                data.coupon.qrcode(
-                  <Form.Item label="扫码领券">
-                    <QRCode size={120} text={data.coupon.qrcode} />
-                  </Form.Item>
-                )}
+              {data.coupon && data.coupon.qrcode && (
+                <Form.Item label="扫码领券">
+                  <QRCode size={120} text={data.coupon.qrcode} />
+                </Form.Item>
+              )}
               <Form.Item label="扫码下单">
                 <QRCode size={120} text={data.qrcode} />
               </Form.Item>
