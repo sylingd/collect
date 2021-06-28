@@ -84,7 +84,7 @@ class Jd {
     }
 
     // 尝试拉一下GWD的API，看看有没有优惠券
-    $gwd = Utils::fetchUrl('https://m.gwdang.com/trend/data_new' . http_build_query([
+    $gwd = Utils::fetchUrl('https://m.gwdang.com/trend/data_new?' . http_build_query([
       'opt' => 'product',
       'dp_id' => $id . '-3',
       'search_url' => 'https://item.jd.com/' + $id . '.html',
