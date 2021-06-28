@@ -133,7 +133,7 @@ class Jd {
     if (isset($good['plusCommissionShare'])) {
       $result['commission'][] = [
         'type' => 'PLUS会员',
-        'amount' => round(($good['finalPrice'] * $good['plusCommissionShare']) / 100),
+        'amount' => round($good['finalPrice'] * $good['plusCommissionShare']) / 100,
         'rate' => $good['plusCommissionShare']
       ];
     }

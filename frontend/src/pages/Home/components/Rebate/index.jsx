@@ -120,7 +120,7 @@ const Rebate = () => {
                     ))}
                     {data.coupon && (
                       <Tag color="warning">
-                        满 {data.total} 减 {data.discount}
+                        满 {data.coupon.total} 减 {data.coupon.discount}
                       </Tag>
                     )}
                   </span>
