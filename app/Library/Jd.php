@@ -169,6 +169,6 @@ class Jd {
       ];
     }
 
-    return $good;
+    return $result;
   }
 }
