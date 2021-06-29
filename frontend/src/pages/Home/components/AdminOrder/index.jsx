@@ -1,11 +1,11 @@
 import { platform, statusMap } from "@/utils";
 import { Button, Dropdown, Menu, message, Space, Table, Tag } from "antd";
-import { useRequest } from "ice";
+import { request, useRequest } from "ice";
 import React, { useCallback, useMemo } from "react";
 import { getList } from "./utils";
 
 const AdminOrder = () => {
-  const { data, loading, refresh, request } = useRequest(getList, {
+  const { data, loading, refresh, loadList } = useRequest(getList, {
     manual: false,
     initialData: {
       total: 0,
@@ -56,13 +56,13 @@ const AdminOrder = () => {
   }, []);
 
   const columns = useMemo(() => {
-    const getMenu = (id) => {
+    const getMenu = (id) => (
       <Menu onClick={({ key }) => handleStatusUpdate(id, key)}>
-        {Object.keys(statusMap).forEach((k) => {
+        {Object.keys(statusMap).map((k) => {
           return <Menu.Item key={k}>{statusMap[k].text}</Menu.Item>;
         })}
-      </Menu>;
-    };
+      </Menu>
+    );
 
     return [
       {
@@ -103,9 +103,11 @@ const AdminOrder = () => {
         render: (text, record) => (
           <Space size="middle">
             <Dropdown overlay={getMenu(record.id)}>
-              <Button>状态</Button>
+              <Button size="small">状态</Button>
             </Dropdown>
-            <Button onClick={() => handleRemarkUpdate(record.id)}>备注</Button>
+            <Button size="small" onClick={() => handleRemarkUpdate(record.id)}>
+              备注
+            </Button>
           </Space>
         ),
       },
@@ -125,7 +127,7 @@ const AdminOrder = () => {
           current: data.page,
           pageSize: data.pageSize,
           showSizeChanger: false,
-          onChange: (page) => request(page),
+          onChange: (page) => loadList(page),
         }}
       />
     </div>

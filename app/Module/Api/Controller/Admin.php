@@ -56,10 +56,10 @@ class Admin extends ControllerAbstract {
 	}
 
 	public function updateOrderAction(Request $request) {
-		$id = $request->get['id'] || $request->post['id'];
+		$id = isset($request->post['id']) ? $request->post['id'] : $request->get['id'];
 		$data = [];
 		if (isset($request->post['status']) || isset($request->get['status'])) {
-			$data['status'] = $request->get['status'] || $request->post['status'];
+			$data['status'] = isset($request->post['status']) ? $request->post['status'] : $request->get['status'];
 		}
 		if (isset($request->post['remark'])) {
 			$data['remark'] = $request->post['remark'];
