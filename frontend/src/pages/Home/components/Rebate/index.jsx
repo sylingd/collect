@@ -8,7 +8,7 @@ import { getPlatform, load } from "./utils";
 const { Search } = Input;
 
 const Rebate = () => {
-  const { platforms } = useRequest(getPlatform, {
+  const { data: platforms } = useRequest(getPlatform, {
     manual: false,
     initialData: [],
   });
