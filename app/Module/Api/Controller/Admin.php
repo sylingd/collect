@@ -56,11 +56,17 @@ class Admin extends ControllerAbstract {
 	}
 
 	public function updateOrderAction(Request $request) {
-		$id = $request->post['id'];
-    $this->order->set([
-			'status' => $request->post['orderId'],
-			'remark' => $request->post['remark']
-		], $id);
+		$id = $request->get['id'] || $request->post['id'];
+		$data = [];
+		if (isset($request->post['status']) || isset($request->get['status'])) {
+			$data['status'] = $request->get['status'] || $request->post['status'];
+		}
+		if (isset($request->post['remark'])) {
+			$data['remark'] = $request->post['remark'];
+		}
+		if (count($data) > 0) {
+			$this->order->set($data, $id);
+		}
 		return Utils::getResult();
 	}
 }

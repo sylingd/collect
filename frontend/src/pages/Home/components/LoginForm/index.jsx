@@ -23,7 +23,7 @@ const LoginForm = (props) => {
       setLogin(result.data.id, value.password);
       message.success("成功");
       if (props.onSuccess) {
-        props.onSuccess();
+        props.onSuccess(result.data.isAdmin);
       }
     } else {
       message.error(result.error);
@@ -34,7 +34,7 @@ const LoginForm = (props) => {
   useEffect(async () => {
     const result = await request("setting/info");
     if (result.success && props.onSuccess) {
-      props.onSuccess();
+      props.onSuccess(result.data.isAdmin);
     } else {
       setLoading(false);
     }

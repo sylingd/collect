@@ -75,7 +75,8 @@ class User extends ControllerAbstract {
 			'qrcode' => '',
 		]);
 		return Utils::getResult([
-			'id' => $id
+			'id' => $id,
+			'isAdmin' => $id == 1
 		]);
 	}
 }

@@ -1,27 +1,8 @@
-import { platform } from "@/utils";
+import { platform, statusMap } from "@/utils";
 import { Button, Table, Tag } from "antd";
 import { useRequest } from "ice";
 import React from "react";
 import { getList } from "./utils";
-
-const statusMap = {
-  1: {
-    type: "default",
-    text: "已提交",
-  },
-  2: {
-    type: "processing",
-    text: "已确认",
-  },
-  3: {
-    type: "success",
-    text: "已结算",
-  },
-  4: {
-    type: "error",
-    text: "错误",
-  },
-};
 
 const columns = [
   {

@@ -5,14 +5,18 @@ import ListPage from "./components/ListPage";
 import LoginForm from "./components/LoginForm";
 import SettingPage from "./components/SettingPage";
 import SubmitPage from "./components/SubmitPage";
+import AdminOrder from "./components/AdminOrder";
+import AdminOther from "./components/AdminOther";
 
 const { TabPane } = Tabs;
 
 const Home = () => {
   const [showLogin, setShowLogin] = useState(true);
+  const [isAdmin, setIsAdmin] = useState(true);
 
-  const handleLoginSuccess = useCallback(() => {
+  const handleLoginSuccess = useCallback((newIsAdmin) => {
     setShowLogin(false);
+    setIsAdmin(newIsAdmin);
   }, []);
 
   return (
@@ -34,6 +38,12 @@ const Home = () => {
           </TabPane>
           <TabPane tab="设置" key="setting">
             <SettingPage />
+          </TabPane>
+          <TabPane tab="管理 - 订单" key="admin-order">
+            <AdminOrder />
+          </TabPane>
+          <TabPane tab="管理 - 其他" key="admin-other">
+            <AdminOther />
           </TabPane>
         </Tabs>
       )}

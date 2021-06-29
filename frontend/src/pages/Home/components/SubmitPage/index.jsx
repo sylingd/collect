@@ -49,10 +49,24 @@ const SubmitPage = () => {
             ))}
           </Radio.Group>
         </Form.Item>
-        <Form.Item label="下单时间" name="time" rules={[{ required: true, message: "请选择下单时间" }]}>
+        <Form.Item
+          label="下单时间"
+          name="time"
+          rules={[{ required: true, message: "请选择下单时间" }]}
+          tooltip="请注意：请填写订单创建时间，而非支付/收货时间。与平台相差不要大于10分钟。"
+        >
           <DatePicker showTime format="YYYY-MM-DD HH:mm" />
         </Form.Item>
-        <Form.Item label="订单号" name="orderId" rules={[{ required: true, message: "请填写订单号" }]}>
+        <Form.Item
+          label="订单号"
+          name="orderId"
+          rules={[{ required: true, message: "请填写订单号" }]}
+          tooltip={
+            <Button href="https://www.yuque.com/docs/share/a92ddc63-6208-44fd-a70e-2c0802dc2c1f" target="_blank" ghost>
+              查看订单号获取方式
+            </Button>
+          }
+        >
           <Input />
         </Form.Item>
         <Form.Item label=" " colon={false}>

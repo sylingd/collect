@@ -36,6 +36,9 @@ class Setting extends ControllerAbstract {
 	}
 
 	public function infoAction(Request $request) {
-		return Utils::getResult();
+		return Utils::getResult([
+			'id' => $request->user['id'],
+			'isAdmin' => $request->user['id'] == 1
+		]);
 	}
 }
