@@ -25,7 +25,6 @@ const AdminOther = () => {
             刷新二维码
           </Button>
         }
-        style={{ width: 300 }}
       >
         <QRCode text={taoLogin} size={300} />
       </Card>
