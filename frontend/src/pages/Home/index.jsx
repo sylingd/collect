@@ -39,12 +39,16 @@ const Home = () => {
           <TabPane tab="设置" key="setting">
             <SettingPage />
           </TabPane>
-          <TabPane tab="管理 - 订单" key="admin-order">
-            <AdminOrder />
-          </TabPane>
-          <TabPane tab="管理 - 其他" key="admin-other">
-            <AdminOther />
-          </TabPane>
+          {isAdmin && (
+            <TabPane tab="管理 - 订单" key="admin-order">
+              <AdminOrder />
+            </TabPane>
+          )}
+          {isAdmin && (
+            <TabPane tab="管理 - 其他" key="admin-other">
+              <AdminOther />
+            </TabPane>
+          )}
         </Tabs>
       )}
     </div>
