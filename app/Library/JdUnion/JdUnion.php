@@ -25,12 +25,12 @@ class JdUnion {
     $param['timestamp'] = date('Y-m-d H:i:s');
     $param['format'] = 'json';
     $param['v'] = '1.0';
+    $param['sign_method'] = 'md5';
     ksort($param);
     $to_sign = '';
     foreach ($param as $key => $value) {
       $to_sign .= $key . $value;
     }
-    $param['sign_method'] = 'md5';
     $param['sign'] = strtoupper(md5($this->secret . $to_sign . $this->secret));
     // 实际请求
     $result = Utils::fetchUrl(JD_URL . http_build_query($param), [
