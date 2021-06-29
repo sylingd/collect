@@ -44,7 +44,7 @@ class Admin extends ControllerAbstract {
     if ($user) {
       $count = $this->order->get(['user' => $user], [Expression::make('COUNT(*) AS n')]);
     } else {
-      $count = $this->order->get([], [Expression::make('COUNT(*) AS n')]);
+      $count = $this->order->get(null, [Expression::make('COUNT(*) AS n')]);
     }
 		// 拼接数据
 		return Utils::getResult([
