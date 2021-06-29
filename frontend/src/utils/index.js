@@ -24,13 +24,17 @@ export const statusMap = {
   },
   2: {
     type: "processing",
-    text: "已确认",
+    text: "待结算",
   },
   3: {
-    type: "success",
-    text: "已结算",
+    type: "processing",
+    text: "待返款",
   },
   4: {
+    type: "success",
+    text: "已完成",
+  },
+  9: {
     type: "error",
     text: "错误",
   },

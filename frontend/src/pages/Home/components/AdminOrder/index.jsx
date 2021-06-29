@@ -31,7 +31,7 @@ const AdminOrder = () => {
     } else {
       message.error("更新失败，" + res.error);
     }
-  }, []);
+  }, [refresh]);
 
   const handleRemarkUpdate = useCallback(async (id) => {
     const newRemark = window.prompt("请输入备注");
@@ -47,13 +47,13 @@ const AdminOrder = () => {
       });
       hide();
       if (res.success) {
-        message.success("更新状态成功");
+        message.success("更新备注成功");
         refresh();
       } else {
         message.error("更新失败，" + res.error);
       }
     }
-  }, []);
+  }, [refresh]);
 
   const columns = useMemo(() => {
     const getMenu = (id) => (
