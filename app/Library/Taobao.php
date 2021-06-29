@@ -31,7 +31,7 @@ class Taobao {
       'json' => true
     ]);
 
-    if (isset($result['errorCode'])) {
+    if (isset($result['errorCode']) && $result['errorCode'] !== '200') {
       if ($result['errorCode'] === '403') {
         return '系统错误，请联系管理员处理';
       }
