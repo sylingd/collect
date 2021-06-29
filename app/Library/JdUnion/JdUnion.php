@@ -43,7 +43,7 @@ class JdUnion {
 
     $response = current($result)['queryResult'];
     if (is_string($response)) {
-      $response = json_decode($response);
+      $response = json_decode($response, true);
     }
 
     if ($response['code'] !== 200) {
