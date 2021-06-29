@@ -10,6 +10,7 @@ const { Search } = Input;
 const Rebate = () => {
   const { platforms } = useRequest(getPlatform, {
     manual: false,
+    initialValues: [],
   });
   const {
     data,
