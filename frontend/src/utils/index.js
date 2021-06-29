@@ -9,7 +9,7 @@ export const setLogin = (user, password) => {
   }
 };
 
-export const platform = {
+export const platformMap = {
   1: '淘宝',
   2: '京东',
   3: '饿了么',

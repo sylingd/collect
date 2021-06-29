@@ -19,14 +19,25 @@ use Sy\ControllerAbstract;
 use Sy\Http\Request;
 
 class Rebate extends ControllerAbstract {
+  public function platformAction(Request $request) {
+    $result = [];
+    if (Jd::enable()) {
+      $result[] = 2;
+    }
+    if (Taobao::enable()) {
+      $result[] = 1;
+    }
+    return Utils::getResult($result);
+  }
+
   public function convertAction(Request $request) {
-    $platform = $request->get['platform'];
+    $platform = intval($request->get['platform']);
     $id = $request->get['id'];
     $result = '该平台暂不支持';
-    if ($platform === 'jd') {
+    if ($platform === 2) {
       $result = Jd::getUrl($id);
     }
-    if ($platform === 'taobao') {
+    if ($platform === 1) {
       $result = Taobao::getUrl($id);
     }
     if (is_string($result)) {

@@ -1,4 +1,4 @@
-import { platform, statusMap } from "@/utils";
+import { platformMap, statusMap } from "@/utils";
 import { Button, Table, Tag } from "antd";
 import { useRequest } from "ice";
 import React from "react";
@@ -9,7 +9,7 @@ const columns = [
     title: "平台",
     dataIndex: "platform",
     key: "platform",
-    render: (k) => platform[k],
+    render: (k) => platformMap[k],
   },
   {
     title: "下单时间",

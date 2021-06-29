@@ -1,4 +1,4 @@
-import { platform, statusMap } from "@/utils";
+import { platformMap, statusMap } from "@/utils";
 import { Button, Dropdown, Menu, message, Space, Table, Tag } from "antd";
 import { request, useRequest } from "ice";
 import React, { useCallback, useMemo } from "react";
@@ -69,7 +69,7 @@ const AdminOrder = () => {
         title: "平台",
         dataIndex: "platform",
         key: "platform",
-        render: (k) => platform[k],
+        render: (k) => platformMap[k],
       },
       {
         title: "用户ID",

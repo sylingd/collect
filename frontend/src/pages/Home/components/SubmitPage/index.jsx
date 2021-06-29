@@ -1,4 +1,4 @@
-import { platform } from "@/utils";
+import { platformMap } from "@/utils";
 import { Button, DatePicker, Form, Input, message, Radio } from "antd";
 import { request } from "ice";
 import moment from "moment";
@@ -42,9 +42,9 @@ const SubmitPage = () => {
       >
         <Form.Item label="平台" name="platform" rules={[{ required: true, message: "请选择平台" }]}>
           <Radio.Group>
-            {Object.keys(platform).map((x) => (
+            {Object.keys(platformMap).map((x) => (
               <Radio value={x} key={x}>
-                {platform[x]}
+                {platformMap[x]}
               </Radio>
             ))}
           </Radio.Group>

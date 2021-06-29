@@ -1,28 +1,16 @@
-import { Form, Spin, Button, Input, message, Select, Tag } from "antd";
-import { request, useRequest } from "ice";
-import React, { useCallback, useRef } from "react";
+import { platformMap } from "@/utils";
+import { Form, Input, message, Select, Spin, Tag } from "antd";
+import { useRequest } from "ice";
+import React, { useCallback, useEffect, useRef } from "react";
 import QRCode from "../QRCode";
+import { getPlatform, load } from "./utils";
 
 const { Search } = Input;
 
-const load = async (platform, id) => {
-  const result = await request({
-    url: "rebate/convert",
-    params: {
-      platform,
-      id,
-    },
-  });
-
-  if (!result.success) {
-    message.error(result.error);
-    return null;
-  }
-
-  return result.data;
-};
-
 const Rebate = () => {
+  const { platforms } = useRequest(getPlatform, {
+    manual: false,
+  });
   const {
     data,
     loading,
@@ -32,11 +20,11 @@ const Rebate = () => {
   });
 
   const tokenRef = useRef(null);
-  const platform = useRef("jd");
+  const platform = useRef(null);
   const handleSearch = useCallback((value) => {
     // 尝试获取商品ID
     let id = null;
-    if (platform.current === "jd") {
+    if (platform.current === 2) {
       if (/^(\d+)$/.test(value)) {
         id = value;
       } else if (/item\.jd\.com\/(\d+)\.html/.test(value)) {
@@ -52,7 +40,7 @@ const Rebate = () => {
         message.error("无法识别链接");
         return;
       }
-    } else if (platform.current === "taobao") {
+    } else if (platform.current === 1) {
       if (/^(\d+)$/.test(value)) {
         id = `https://item.taobao.com/item.htm?id=${value}`;
       } else {
@@ -63,8 +51,11 @@ const Rebate = () => {
   }, []);
 
   const handleSelect = useCallback((value) => {
-    platform.current = value;
+    platform.current = typeof value === "string" ? parseInt(value) : value;
   }, []);
+  useEffect(() => {
+    platform.current = platforms[0];
+  }, [platforms]);
 
   const handleTokenFocus = useCallback(() => {
     if (tokenRef.current) {
@@ -72,6 +63,7 @@ const Rebate = () => {
       input.setSelectionRange(0, input.value.length);
     }
   }, []);
+
   const handleCopyToken = useCallback(() => {
     if (tokenRef.current) {
       const input = tokenRef.current.input;
@@ -93,8 +85,10 @@ const Rebate = () => {
     <div className="page-rebate">
       <Search
         addonBefore={
-          <Select defaultValue="jd" onChange={handleSelect}>
-            <Option value="jd">京东</Option>
+          <Select onChange={handleSelect}>
+            {platforms.map((x) => (
+              <Option value={x}>{platformMap[x]}</Option>
+            ))}
           </Select>
         }
         enterButton="获取"

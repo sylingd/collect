@@ -16,6 +16,10 @@ use Sy\App;
 use App\Library\TaobaoUnion\TaobaoUnion;
 
 class Taobao {
+  public static function enable() {
+    return !empty(App::$config->get('taobao_api'));
+  }
+
   public static function getUrl($url) {
     $apiPrefix = App::$config->get('taobao_api');
     if (empty($apiPrefix)) {

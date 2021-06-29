@@ -16,6 +16,10 @@ use Sy\App;
 use App\Library\JdUnion\JdUnion;
 
 class Jd {
+  public static function enable() {
+    return !empty(App::$config->get('jd_cookie'));
+  }
+
   public static function getCookie() {
     static $ck = '';
 
