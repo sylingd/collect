@@ -44,6 +44,9 @@ const Rebate = () => {
     } else if (platform.current === 1) {
       if (/^(\d+)$/.test(value)) {
         id = `https://item.taobao.com/item.htm?id=${value}`;
+      } else if (value.indexOf('m.tb.cn') > 0) {
+        const res = /m\.tb\.cn\/([a-zA-Z0-9\.]+)/.exec(value);
+        id = `https://${res[0]}`;
       } else {
         id = value;
       }
@@ -82,11 +85,15 @@ const Rebate = () => {
     }
   }, []);
 
+  if (platforms.length === 0) {
+    return <Spin spinning={true} />;
+  }
+
   return (
     <div className="page-rebate">
       <Search
         addonBefore={
-          <Select onChange={handleSelect}>
+          <Select defaultValue={platforms[0]} onChange={handleSelect}>
             {platforms.map((x) => (
               <Option value={x}>{platformMap[x]}</Option>
             ))}
