@@ -32,10 +32,11 @@ class Jd {
       $union = new JdUnion();
     }
     try {
-      $orders = $union->queryOrder([
+      $param = [
         'startTime' => date('Y-m-d H:i:s', $time - 600),
         'endTime' => date('Y-m-d H:i:s', $time + 600),
-      ]);
+      ];
+      $orders = $union->queryOrder($param);
     } catch (\Exception $e) {
       return null;
     }

@@ -57,10 +57,11 @@ class Taobao {
       $union = new TaobaoUnion();
     }
     try {
-      $orders = $union->queryOrder([
+      $param = [
         'start_time' => date('Y-m-d H:i:s', $time - 600),
         'end_time' => date('Y-m-d H:i:s', $time + 600),
-      ]);
+      ];
+      $orders = $union->queryOrder($param);
     } catch (\Exception $e) {
       return null;
     }
