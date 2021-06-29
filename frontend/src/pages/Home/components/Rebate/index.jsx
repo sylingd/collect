@@ -109,11 +109,13 @@ const Rebate = () => {
                 <span className="ant-form-text">
                   {data.name}
                   <span className="tags">
-                    {data.tag.map((x, index) => (
-                      <Tag key={index} color={x.color}>
-                        {x.text}
-                      </Tag>
-                    ))}
+                    {data.tag && data.tag.length > 0
+                      ? data.tag.map((x, index) => (
+                          <Tag key={index} color={x.color}>
+                            {x.text}
+                          </Tag>
+                        ))
+                      : null}
                     {data.coupon && (
                       <Tag color="warning">
                         满 {data.coupon.total} 减 {data.coupon.discount}
