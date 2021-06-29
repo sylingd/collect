@@ -12,7 +12,7 @@ const { TabPane } = Tabs;
 
 const Home = () => {
   const [showLogin, setShowLogin] = useState(true);
-  const [isAdmin, setIsAdmin] = useState(true);
+  const [isAdmin, setIsAdmin] = useState(false);
 
   const handleLoginSuccess = useCallback((newIsAdmin) => {
     setShowLogin(false);
