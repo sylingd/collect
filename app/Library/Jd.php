@@ -43,7 +43,7 @@ class Jd {
 
     $order = null;
     foreach ($orders as $value) {
-      if ($value['orderId'] === $orderId) {
+      if ($value['orderId'] == $orderId) {
         $order = $value;
         break;
       }
