@@ -4,7 +4,7 @@ import { useRequest } from "ice";
 import React, { useCallback, useMemo } from "react";
 import { getList } from "./utils";
 
-const ListPage = () => {
+const AdminOrder = () => {
   const { data, loading, refresh, request } = useRequest(getList, {
     manual: false,
     initialData: {
@@ -132,4 +132,4 @@ const ListPage = () => {
   );
 };
 
-export default ListPage;
+export default AdminOrder;

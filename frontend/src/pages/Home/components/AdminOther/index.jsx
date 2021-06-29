@@ -33,4 +33,4 @@ const AdminOther = () => {
   );
 };
 
-export default SettingPage;
+export default AdminOther;
