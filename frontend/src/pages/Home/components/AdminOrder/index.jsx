@@ -33,7 +33,7 @@ const ListPage = () => {
     }
   }, []);
 
-  const handleRemarkUpdate = useCallback((id) => {
+  const handleRemarkUpdate = useCallback(async (id) => {
     const newRemark = window.prompt("请输入备注");
     if (newRemark) {
       const hide = message.loading("正在更新");
