@@ -13,6 +13,7 @@
 namespace App\Library;
 
 use Sy\App;
+use App\Library\TaobaoUnion\TaobaoUnion;
 
 class Taobao {
   public static function getUrl($url) {
@@ -49,4 +50,34 @@ class Taobao {
 
     return $result['data'];
   }
+
+  public static function isOrderValid($orderId, $time) {
+    static $union = null;
+    if ($union === null) {
+      $union = new TaobaoUnion();
+    }
+    try {
+      $orders = $union->queryOrder([
+        'start_time' => date('Y-m-d H:i:s', $time - 600),
+        'end_time' => date('Y-m-d H:i:s', $time + 600),
+      ]);
+    } catch (\Exception $e) {
+      return null;
+    }
+
+    $order = null;
+    foreach ($orders as $value) {
+      if ($value['trade_parent_id'] === $orderId) {
+        $order = $value;
+        break;
+      }
+    }
+
+    if (!$order) {
+      return null;
+    }
+
+    return intval($order['tk_status']) !== 13;
+  }
+
 }

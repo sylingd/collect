@@ -13,6 +13,7 @@
 namespace App\Library;
 
 use Sy\App;
+use App\Library\JdUnion\JdUnion;
 
 class Jd {
   public static function getCookie() {
@@ -24,6 +25,37 @@ class Jd {
 
     return $ck;
   }
+
+  public static function isOrderValid($orderId, $time) {
+    static $union = null;
+    if ($union === null) {
+      $union = new JdUnion();
+    }
+    try {
+      $orders = $union->queryOrder([
+        'startTime' => date('Y-m-d H:i:s', $time - 600),
+        'endTime' => date('Y-m-d H:i:s', $time + 600),
+      ]);
+    } catch (\Exception $e) {
+      return null;
+    }
+
+    $order = null;
+    foreach ($orders as $value) {
+      if ($value['orderId'] === $orderId) {
+        $order = $value;
+        break;
+      }
+    }
+
+    if (!$order) {
+      return null;
+    }
+
+    $code = intval($order['validCode']);
+    return in_array($code, [15, 16, 17], true) ? 1 : $code;
+  }
+
   public static function getUrl($id) {
     $searchData = [
       'bonusIds' => null,
@@ -99,7 +131,7 @@ class Jd {
       $discount = intval($gwd['data']['dp_info']['coupon']['amount']);
       if (!isset($good['couponDiscount']) || $good['couponDiscount'] < $discount) {
         parse_str(parse_url($url, PHP_URL_QUERY), $query);
-        $query = array_filter($query, function($val) {
+        $query = array_filter($query, function ($val) {
           return strpos($val, 'https://coupon.m.jd.com') === 0;
         });
         if (count($query) > 0) {

@@ -8,8 +8,11 @@
  * @link https://www.sylingd.com/
  * @copyright Copyright (c) 2019 ShuangYa
  */
+
 namespace App\Module\Api\Controller;
 
+use App\Library\Jd;
+use App\Library\Taobao;
 use App\Library\Utils;
 use App\Model\Order as OrderModel;
 use Sy\ControllerAbstract;
@@ -45,11 +48,36 @@ class Order extends ControllerAbstract {
 	}
 
 	public function submitAction(Request $request) {
+		$platform = intval($request->post['platform']);
+		$orderId = $request->post['orderId'];
+		$time = $request->post['time'];
+		// 检查订单是否有效
+		switch ($platform) {
+			case 2:
+				$orderStatus = Jd::isOrderValid($orderId, $time);
+				if ($orderStatus === null) {
+					return Utils::getResult(['error' => '订单未找到，请确认订单号和下单时间填写正确']);
+				}
+				if (1 !== $orderStatus) {
+					return Utils::getResult(['error' => '订单无效，状态码：' . $orderStatus]);
+				}
+				break;
+			case 1:
+			case 3:
+				$orderStatus = Taobao::isOrderValid($orderId, $time);
+				if ($orderStatus === null) {
+					return Utils::getResult(['error' => '订单未找到，请确认订单号和下单时间填写正确']);
+				}
+				if (!$orderStatus) {
+					return Utils::getResult(['error' => '订单无效']);
+				}
+				break;
+		}
 		$id = $this->order->add([
 			'user' => $request->user['id'],
-			'platform' => intval($request->post['platform']),
-			'time' => date('Y-m-d H:i:s', $request->post['time']),
-			'orderId' => $request->post['orderId'],
+			'platform' => $platform,
+			'time' => date('Y-m-d H:i:s', $time),
+			'orderId' => $orderId,
 			'status' => 1,
 			'remark' => ''
 		]);
