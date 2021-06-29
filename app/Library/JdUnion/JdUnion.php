@@ -37,7 +37,14 @@ class JdUnion {
       'json' => true
     ]);
 
+    if (isset($result['error_response'])) {
+      throw new JdException($result['error_response']['zh_desc'], $result['error_response']['code']);
+    }
+
     $response = current($result)['queryResult'];
+    if (is_string($response)) {
+      $response = json_decode($response);
+    }
 
     if ($response['code'] !== 200) {
       throw new JdException($response['message'], $response['code']);
