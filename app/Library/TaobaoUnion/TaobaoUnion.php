@@ -11,7 +11,7 @@ class TaobaoUnion {
   private $key;
   private $secret;
 
-  function constructor() {
+  public function __construct() {
     $this->key = App::$config->get('tb_union.key');
     $this->secret = App::$config->get('tb_union.secret');
   }
