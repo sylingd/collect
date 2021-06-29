@@ -16,29 +16,13 @@ class JdUnion {
     $this->secret = App::$config->get('jd_union.secret');
   }
 
-  private function getStandardOffsetUTC($timezone) {
-    if ($timezone == 'UTC') {
-      return '+0000';
-    } else {
-      $timezone = new \DateTimeZone($timezone);
-      $transitions = array_slice($timezone->getTransitions(), -3, null, true);
-      foreach (array_reverse($transitions, true) as $transition) {
-        if ($transition['isdst'] == 1) {
-          continue;
-        }
-        return sprintf('%+03d%02u', $transition['offset'] / 3600, abs($transition['offset']) % 3600 / 60);
-      }
-      return false;
-    }
-  }
-
   private function request($method, $data) {
     $param = [];
     $param['method'] = $method;
     $param['360buy_param_json'] = json_encode($data);
     // 进行签名
     $param['app_key'] = $this->key;
-    $param['timestamp'] = date('Y-m-d H:i:s') . '.000' . $this->getStandardOffsetUTC(date_default_timezone_get());
+    $param['timestamp'] = date('Y-m-d H:i:s');
     $param['format'] = 'json';
     $param['v'] = '1.0';
     $param['sign_method'] = 'md5';
@@ -80,7 +64,7 @@ class JdUnion {
       $param['type'] = 1;
     }
 
-    return $this->request('jd.union.open.order.query', [
+    return $this->request('jd.union.open.order.row.query', [
       'orderReq' => $param
     ]);
   }
