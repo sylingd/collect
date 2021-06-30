@@ -64,8 +64,13 @@ class JdUnion {
       $param['type'] = 1;
     }
 
-    return $this->request('jd.union.open.order.row.query', [
+    $result = $this->request('jd.union.open.order.row.query', [
       'orderReq' => $param
     ]);
+
+    if (!is_array($result)) {
+      return [];
+    }
+    return $result;
   }
 }
