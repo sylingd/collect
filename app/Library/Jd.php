@@ -86,7 +86,7 @@ class Jd {
       if (!self::isValidStatus($order['status'])) {
         continue;
       }
-      $total['status'] += $order['status'];
+      $total['status'] = $order['status'];
       $total['pay'] += $order['pay'];
       $total['expect_rebate'] += $order['expect_rebate'];
       $total['rebate'] += $order['rebate'];
