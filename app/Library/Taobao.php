@@ -70,7 +70,7 @@ class Taobao {
       'expect_rebate' => 0,
       'rebate' => 0,
       'charge' => 0,
-      'create_time' => $orders[0]['tk_create_time'],
+      'create_time' => $orders[0]['create_time'],
     ];
     foreach ($orders as $order) {
       if (!self::isValidStatus($order['status'])) {
