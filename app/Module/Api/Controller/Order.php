@@ -1,4 +1,5 @@
 <?php
+
 /**
  * 用户
  * 
@@ -51,38 +52,40 @@ class Order extends ControllerAbstract {
 		$platform = intval($request->post['platform']);
 		$orderId = $request->post['orderId'];
 		$time = $request->post['time'];
+		$orderTime = date('Y-m-d H:i:s', $time);
 		// 检查订单是否有效
+		$order = null;
+		$clazz = '';
 		switch ($platform) {
 			case 2:
-				$orderStatus = Jd::isOrderValid($orderId, $time);
-				if ($orderStatus === null) {
-					return Utils::getResult(['error' => '订单未找到，请确认订单号和下单时间填写正确']);
-				}
-				if (1 !== $orderStatus) {
-					return Utils::getResult(['error' => '订单无效，状态码：' . $orderStatus]);
-				}
+				$clazz = Jd::class;
 				break;
 			case 1:
 			case 3:
-				$orderStatus = Taobao::isOrderValid($orderId, $time);
-				if ($orderStatus === null) {
-					return Utils::getResult(['error' => '订单未找到，请确认订单号和下单时间填写正确']);
-				}
-				if (!$orderStatus) {
-					return Utils::getResult(['error' => '订单无效']);
-				}
+				$clazz = Taobao::class;
 				break;
+		}
+		if ($order !== null) {
+			$order = $clazz::getRemoteOrder($orderId, $time);
+			if (!$order) {
+				return Utils::getResult(['error' => '订单未找到，请确认订单号和下单时间填写正确']);
+			}
+			if (!$clazz::isValidStatus($order['status'])) {
+				return Utils::getResult(['error' => '订单无效，状态码：' . $order['status']]);
+			}
+			$orderTime = $order['create_time'];
 		}
 		$id = $this->order->add([
 			'user' => $request->user['id'],
 			'platform' => $platform,
-			'time' => date('Y-m-d H:i:s', $time),
+			'time' => $orderTime,
 			'orderId' => $orderId,
 			'status' => 1,
 			'remark' => ''
 		]);
 		return Utils::getResult([
-			'id' => $id
+			'id' => $id,
+			'order' => $order
 		]);
 	}
 }

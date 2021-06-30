@@ -13,6 +13,7 @@
 namespace App\Library;
 
 use Sy\App;
+use Sy\DI\Container;
 use App\Library\JdUnion\JdUnion;
 
 class Jd {
@@ -30,35 +31,67 @@ class Jd {
     return $ck;
   }
 
-  public static function isOrderValid($orderId, $time) {
-    static $union = null;
-    if ($union === null) {
-      $union = new JdUnion();
-    }
+  protected static function convertOrder($order) {
+    $rebate = floatval($order['actualFee']);
+    return [
+      'status' => intval($order['validCode']), // 状态码，非15/16/17为无效订单
+      'pay' => $order['pay_price'], // 付款金额
+      'expect_rebate' => $rebate > 0 ? $rebate : floatval($order['estimateFee']), // 预估收入
+      'rebate' => $rebate, // 实际收入
+      'charge' => 0, // 手续费
+      'create_time' => $order['orderTime'], // 订单创建时间
+    ];
+  }
+
+  public static function isValidStatus($status) {
+    return in_array($status, [15, 16, 17], true);
+  }
+
+  public static function getRemoteOrder($orderId, $time, $timeOffset = 600) {
+    $union = Container::getInstance()->get(JdUnion::class);
+
     try {
       $param = [
-        'startTime' => date('Y-m-d H:i:s', $time - 600),
-        'endTime' => date('Y-m-d H:i:s', $time + 600),
+        'startTime' => date('Y-m-d H:i:s', $time - $timeOffset),
+        'endTime' => date('Y-m-d H:i:s', $time + $timeOffset),
       ];
       $orders = $union->queryOrder($param);
     } catch (\Exception $e) {
       return null;
     }
 
-    $order = null;
-    foreach ($orders as $value) {
-      if ($value['orderId'] == $orderId) {
-        $order = $value;
-        break;
-      }
-    }
+    // 同一个父ID下可能有很多个子订单
+    $orders = array_filter($orders, function ($item) use ($orderId) {
+      return $item['orderId'] === $orderId;
+    });
 
-    if (!$order) {
+    if (count($orders) === 0) {
       return null;
     }
 
-    $code = intval($order['validCode']);
-    return in_array($code, [15, 16, 17], true) ? 1 : $code;
+    if (count($orders) === 1) {
+      return self::convertOrder($orders[0]);
+    }
+
+    $orders = array_map([self::class, 'convertOrder'], $orders);
+    $total = [
+      'status' => 0,
+      'pay' => 0,
+      'expect_rebate' => 0,
+      'rebate' => 0,
+      'charge' => 0,
+      'create_time' => $orders[0]['orderTime'],
+    ];
+    foreach ($orders as $order) {
+      if (!self::isValidStatus($order['status'])) {
+        continue;
+      }
+      $total['status'] += $order['status'];
+      $total['pay'] += $order['pay'];
+      $total['expect_rebate'] += $order['expect_rebate'];
+      $total['rebate'] += $order['rebate'];
+    }
+    return $total;
   }
 
   public static function getUrl($id) {
