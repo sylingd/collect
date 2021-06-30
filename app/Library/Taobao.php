@@ -51,9 +51,9 @@ class Taobao {
     }
 
     // 同一个父ID下可能有很多个子订单
-    $orders = array_filter($orders, function ($item) use ($orderId) {
+    $orders = array_values(array_filter($orders, function ($item) use ($orderId) {
       return $item['trade_parent_id'] === $orderId;
-    });
+    }));
 
     if (count($orders) === 0) {
       return null;
