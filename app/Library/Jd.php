@@ -62,7 +62,7 @@ class Jd {
 
     // 同一个父ID下可能有很多个子订单
     $orders = array_filter($orders, function ($item) use ($orderId) {
-      return $item['orderId'] === $orderId;
+      return $item['orderId'] == $orderId;
     });
 
     if (count($orders) === 0) {
