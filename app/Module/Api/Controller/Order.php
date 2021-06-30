@@ -65,7 +65,7 @@ class Order extends ControllerAbstract {
 				$clazz = Taobao::class;
 				break;
 		}
-		if ($order !== null) {
+		if ($platform !== '') {
 			$order = $clazz::getRemoteOrder($orderId, $time);
 			if (!$order) {
 				return Utils::getResult(['error' => '订单未找到，请确认订单号和下单时间填写正确']);
