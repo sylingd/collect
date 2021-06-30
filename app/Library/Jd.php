@@ -35,7 +35,7 @@ class Jd {
     $rebate = floatval($order['actualFee']);
     return [
       'status' => intval($order['validCode']), // 状态码，非15/16/17为无效订单
-      'pay' => $order['pay_price'], // 付款金额
+      'pay' => $order['estimateCosPrice'], // 付款金额
       'expect_rebate' => $rebate > 0 ? $rebate : floatval($order['estimateFee']), // 预估收入
       'rebate' => $rebate, // 实际收入
       'charge' => 0, // 手续费
