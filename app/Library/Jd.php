@@ -35,7 +35,7 @@ class Jd {
     $rebate = floatval($order['actualFee']);
     return [
       'status' => intval($order['validCode']), // 状态码，非15/16/17为无效订单
-      'pay' => $order['pay_price'], // 付款金额
+      'pay' => $order['estimateCosPrice'], // 付款金额
       'expect_rebate' => $rebate > 0 ? $rebate : floatval($order['estimateFee']), // 预估收入
       'rebate' => $rebate, // 实际收入
       'charge' => 0, // 手续费
@@ -61,9 +61,9 @@ class Jd {
     }
 
     // 同一个父ID下可能有很多个子订单
-    $orders = array_filter($orders, function ($item) use ($orderId) {
-      return $item['orderId'] === $orderId;
-    });
+    $orders = array_values(array_filter($orders, function ($item) use ($orderId) {
+      return $item['orderId'] == $orderId;
+    }));
 
     if (count($orders) === 0) {
       return null;
@@ -80,13 +80,13 @@ class Jd {
       'expect_rebate' => 0,
       'rebate' => 0,
       'charge' => 0,
-      'create_time' => $orders[0]['orderTime'],
+      'create_time' => $orders[0]['create_time'],
     ];
     foreach ($orders as $order) {
       if (!self::isValidStatus($order['status'])) {
         continue;
       }
-      $total['status'] += $order['status'];
+      $total['status'] = $order['status'];
       $total['pay'] += $order['pay'];
       $total['expect_rebate'] += $order['expect_rebate'];
       $total['rebate'] += $order['rebate'];

@@ -51,9 +51,9 @@ class Taobao {
     }
 
     // 同一个父ID下可能有很多个子订单
-    $orders = array_filter($orders, function ($item) use ($orderId) {
+    $orders = array_values(array_filter($orders, function ($item) use ($orderId) {
       return $item['trade_parent_id'] === $orderId;
-    });
+    }));
 
     if (count($orders) === 0) {
       return null;
@@ -70,13 +70,13 @@ class Taobao {
       'expect_rebate' => 0,
       'rebate' => 0,
       'charge' => 0,
-      'create_time' => $orders[0]['tk_create_time'],
+      'create_time' => $orders[0]['create_time'],
     ];
     foreach ($orders as $order) {
       if (!self::isValidStatus($order['status'])) {
         continue;
       }
-      $total['status'] += $order['status'];
+      $total['status'] = $order['status'];
       $total['pay'] += $order['pay'];
       $total['expect_rebate'] += $order['expect_rebate'];
       $total['rebate'] += $order['rebate'];
