@@ -19,7 +19,20 @@ const SubmitPage = () => {
     });
     hide();
     if (result.success) {
-      message.success("提交成功");
+      if (result.order) {
+        const { order } = result;
+        Modal.success({
+          title: "提交成功",
+          content: (
+            <p>
+              预计返利：￥{order.expect_rebate}，手续费：￥{order.charge}。<br />
+              以上数据不含税。仅供参考，以实际返利为准。
+            </p>
+          ),
+        });
+      } else {
+        message.success("提交成功");
+      }
       formRef.current.resetFields();
     } else {
       message.error(result.error);
