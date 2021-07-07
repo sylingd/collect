@@ -157,7 +157,7 @@ class Jd {
     $gwd = Utils::fetchUrl('https://m.gwdang.com/trend/data_new?' . http_build_query([
       'opt' => 'product',
       'dp_id' => $id . '-3',
-      'search_url' => 'https://item.jd.com/' + $id . '.html',
+      'search_url' => 'https://item.jd.com/' . $id . '.html',
       'period' => 180,
       'from' => 'wx_1'
     ]), [
