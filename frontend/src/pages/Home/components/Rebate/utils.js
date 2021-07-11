@@ -1,3 +1,4 @@
+import { message } from "antd";
 import { request } from "ice";
 
 export const getPlatform = async () => {
