@@ -47,7 +47,11 @@ const ListPage = () => {
 
   return (
     <div>
-      <Button onClick={refresh}>刷新</Button>
+      <div className="action">
+        <Button onClick={refresh}>刷新</Button>
+        &nbsp;
+        <Button href="https://www.yuque.com/docs/share/2e48623f-f3bd-4a17-af79-94b8daa685b4" target="_blank">状态说明</Button>
+      </div>
       <Table
         rowKey="id"
         loading={loading}

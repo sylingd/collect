@@ -96,6 +96,7 @@ const SettingPage = () => {
       <QRCode text={qr} />
       <p>
         <Button onClick={handleUploadQR}>选择文件</Button>
+        &nbsp;
         <Button onClick={handleSave}>保存</Button>
       </p>
     </div>
