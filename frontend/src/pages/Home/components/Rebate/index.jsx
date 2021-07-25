@@ -118,8 +118,8 @@ const Rebate = () => {
                 ))}
               </Form.Item>
               {data.token && (
-                <Form.Item label="口令" name="token">
-                  <CopyInput />
+                <Form.Item label="口令">
+                  <CopyInput value={data.token} />
                 </Form.Item>
               )}
               <Form.Item label="下单链接">
