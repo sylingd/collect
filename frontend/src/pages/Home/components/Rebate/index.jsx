@@ -2,7 +2,8 @@ import { platformMap } from "@/utils";
 import { Form, Input, message, Select, Spin, Tag } from "antd";
 import { useRequest } from "ice";
 import React, { useCallback, useEffect, useRef } from "react";
-import QRCode from "../QRCode";
+import CopyInput from "../../../../components/CopyInput";
+import QRCode from "../../../../components/QRCode";
 import { getPlatform, load } from "./utils";
 
 const { Search } = Input;
@@ -20,7 +21,6 @@ const Rebate = () => {
     manual: true,
   });
 
-  const tokenRef = useRef(null);
   const platform = useRef(null);
   const handleSearch = useCallback((value) => {
     // 尝试获取商品ID
@@ -44,7 +44,7 @@ const Rebate = () => {
     } else if (platform.current === 1) {
       if (/^(\d+)$/.test(value)) {
         id = `https://item.taobao.com/item.htm?id=${value}`;
-      } else if (value.indexOf('m.tb.cn') > 0) {
+      } else if (value.indexOf("m.tb.cn") > 0) {
         const res = /m\.tb\.cn\/([a-zA-Z0-9\.]+)/.exec(value);
         id = `https://${res[0]}`;
       } else {
@@ -60,30 +60,6 @@ const Rebate = () => {
   useEffect(() => {
     platform.current = platforms[0];
   }, [platforms]);
-
-  const handleTokenFocus = useCallback(() => {
-    if (tokenRef.current) {
-      const input = tokenRef.current.input;
-      input.setSelectionRange(0, input.value.length);
-    }
-  }, []);
-
-  const handleCopyToken = useCallback(() => {
-    if (tokenRef.current) {
-      const input = tokenRef.current.input;
-      try {
-        navigator.clipboard.writeText(input.value);
-        message.success("已复制");
-        return;
-      } catch (e) {
-        // ignore
-      }
-      tokenRef.current.focus();
-      input.setSelectionRange(0, input.value.length);
-      document.execCommand("copy");
-      message.success("已复制");
-    }
-  }, []);
 
   if (platforms.length === 0) {
     return <Spin spinning={true} />;
@@ -143,20 +119,12 @@ const Rebate = () => {
               </Form.Item>
               {data.token && (
                 <Form.Item label="口令" name="token">
-                  <Input.Search
-                    ref={tokenRef}
-                    onFocus={handleTokenFocus}
-                    readOnly
-                    onSearch={handleCopyToken}
-                    enterButton="复制"
-                  />
+                  <CopyInput />
                 </Form.Item>
               )}
-              {data.coupon && data.coupon.qrcode && (
-                <Form.Item label="扫码领券">
-                  <QRCode size={120} text={data.coupon.qrcode} />
-                </Form.Item>
-              )}
+              <Form.Item label="复制下单链接">
+                <CopyInput value={data.qrcode} />
+              </Form.Item>
               <Form.Item label="扫码下单">
                 <QRCode size={120} text={data.qrcode} />
               </Form.Item>

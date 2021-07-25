@@ -2,15 +2,15 @@ import React, { useEffect, useMemo, useRef } from "react";
 
 const QRCode = (props) => {
   const { text, size = 180 } = props;
-  const qrcodeRef = useRef(null);
+  const instance = useRef(null);
   const qrContainerRef = useRef("null");
 
   useEffect(() => {
     if (!text || !qrContainerRef.current) {
       return;
     }
-    if (qrcodeRef.current === null) {
-      qrcodeRef.current = new window.QRCode(qrContainerRef.current, {
+    if (instance.current === null) {
+      instance.current = new window.QRCode(qrContainerRef.current, {
         text,
         width: size,
         height: size,
@@ -19,7 +19,7 @@ const QRCode = (props) => {
         correctLevel: window.QRCode.CorrectLevel.H,
       });
     } else {
-      qrcodeRef.current.makeCode(text);
+      instance.current.makeCode(text);
     }
   }, [text, size]);
 

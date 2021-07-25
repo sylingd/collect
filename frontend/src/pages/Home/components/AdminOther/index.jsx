@@ -1,7 +1,7 @@
 import { Button, message, Card } from "antd";
 import { request } from "ice";
 import React, { useCallback, useEffect, useRef, useState } from "react";
-import QRCode from "../QRCode";
+import QRCode from "../../../../components/QRCode";
 
 const AdminOther = () => {
   const [taoLogin, setTaoLogin] = useState("");

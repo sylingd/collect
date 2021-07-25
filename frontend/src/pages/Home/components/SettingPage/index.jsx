@@ -1,7 +1,7 @@
 import { Button, message } from "antd";
 import { request } from "ice";
 import React, { useCallback, useEffect, useRef, useState } from "react";
-import QRCode from "../QRCode";
+import QRCode from "../../../../components/QRCode";
 
 const SettingPage = () => {
   const canvasRef = useRef(null);
