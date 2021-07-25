@@ -198,6 +198,7 @@ class Jd {
     ]);
     $share = $shareResponse['data']['shareInfo'][0];
 
+    $goodPrice = isset($good['couponAfterPrice']) ? $good['couponAfterPrice'] : $good['price'];
     $result = [
       'name' => $good['skuName'],
       'commission' => [
@@ -208,14 +209,14 @@ class Jd {
         ]
       ],
       'qrcode' => $share['shortUrl'],
-      'price' => isset($good['couponAfterPrice']) ? $good['couponAfterPrice'] : $good['price'],
+      'price' => $goodPrice,
       'tag' => []
     ];
 
     if (isset($good['plusCommissionShare'])) {
       $result['commission'][] = [
         'type' => 'PLUS会员',
-        'amount' => round($good['price'] * $good['plusCommissionShare']) / 100,
+        'amount' => round($goodPrice * $good['plusCommissionShare']) / 100,
         'rate' => $good['plusCommissionShare']
       ];
     }
