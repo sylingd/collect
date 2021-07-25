@@ -122,7 +122,7 @@ const Rebate = () => {
                   <CopyInput />
                 </Form.Item>
               )}
-              <Form.Item label="复制下单链接">
+              <Form.Item label="下单链接">
                 <CopyInput value={data.qrcode} />
               </Form.Item>
               <Form.Item label="扫码下单">
