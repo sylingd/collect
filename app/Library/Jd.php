@@ -165,12 +165,12 @@ class Jd {
     // } else {
     //   unset($getCodeData['couponUrl']);
     // }
-    $getCodeData = [
+    $shareReq = [
       'shareType' => 1,
       'skuId' => $id,
       'requestId' => $good['requestId']
     ];
-    $getCode = Utils::fetchUrl('https://api.m.jd.com/?' . http_build_query([
+    $shareResponse = Utils::fetchUrl('https://api.m.jd.com/?' . http_build_query([
       'functionId' => 'unionShare',
       'client' => 'apple',
       'clientVersion' => '3.9.2',
@@ -182,7 +182,7 @@ class Jd {
         'source' => 30110,
         'param' => [
           'shareReq' => [
-            $getCodeData
+            $shareReq
           ]
         ],
         'platform' => 2,
@@ -196,6 +196,7 @@ class Jd {
         'Referer: https://jingfenapp.jd.com/pages/search'
       ]
     ]);
+    $share = $shareResponse['data']['shareInfo'][0];
 
     $result = [
       'name' => $good['skuName'],
@@ -206,7 +207,7 @@ class Jd {
           'rate' => $good['commissionShare'],
         ]
       ],
-      'qrcode' => $getCode['data']['shareInfo']['shortUrl'],
+      'qrcode' => $share['shortUrl'],
       'price' => isset($good['couponAfterPrice']) ? $good['couponAfterPrice'] : $good['price'],
       'tag' => []
     ];
