@@ -122,7 +122,7 @@ class Jd {
       ]
     ]);
 
-    if ($search['code'] !== 200) {
+    if ($search['code'] === 420) {
       return '系统错误，请联系管理员处理';
     }
 
@@ -196,6 +196,11 @@ class Jd {
         'Referer: https://jingfenapp.jd.com/pages/search'
       ]
     ]);
+
+    if ($shareResponse['code'] === 420) {
+      return '系统错误，请联系管理员处理';
+    }
+
     $share = $shareResponse['data']['shareInfo'][0];
 
     $goodPrice = isset($good['couponAfterPrice']) ? $good['couponAfterPrice'] : $good['price'];
