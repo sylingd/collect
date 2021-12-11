@@ -1,5 +1,5 @@
 import { platformMap } from "@/utils";
-import { Form, Input, message, Select, Spin, Tag } from "antd";
+import { Form, Input, message, Modal, Select, Spin, Tag } from "antd";
 import { useRequest } from "ice";
 import React, { useCallback, useEffect, useRef } from "react";
 import CopyInput from "../../../../components/CopyInput";
@@ -9,10 +9,6 @@ import { getPlatform, load } from "./utils";
 const { Search } = Input;
 
 const Rebate = () => {
-  const { data: platforms } = useRequest(getPlatform, {
-    manual: false,
-    initialData: [],
-  });
   const {
     data,
     loading,
@@ -21,60 +17,60 @@ const Rebate = () => {
     manual: true,
   });
 
-  const platform = useRef(null);
   const handleSearch = useCallback((value) => {
     // 尝试获取商品ID
     let id = null;
-    if (platform.current === 2) {
-      if (/^(\d+)$/.test(value)) {
-        id = value;
-      } else if (/item\.jd\.com\/(\d+)\.html/.test(value)) {
-        const res = /item\.jd\.com\/(\d+)\.html/.exec(value);
-        id = res[1];
-      } else if (/item\.m\.jd\.com\/product\/(\d+)\.html/.test(value)) {
-        const res = /item\.m\.jd\.com\/product\/(\d+)\.html/.exec(value);
-        id = res[1];
-      } else if (/https?:\/\/u\.jd\.com\/(\w+)/.test(value)) {
-        const res = /https?:\/\/u\.jd\.com\/(\w+)/.exec(value);
-        id = res[0];
-      } else {
-        message.error("无法识别链接");
-        return;
-      }
-    } else if (platform.current === 1) {
-      if (/^(\d+)$/.test(value)) {
-        id = `https://item.taobao.com/item.htm?id=${value}`;
-      } else if (value.indexOf("m.tb.cn") > 0) {
-        const res = /m\.tb\.cn\/([a-zA-Z0-9\.]+)/.exec(value);
-        id = `https://${res[0]}`;
-      } else {
-        id = value;
-      }
+    let platform = -1;
+
+    const ok = () => doSearch(platform, id);
+
+    // 京东
+    if (/item\.jd\.com\/(\d+)\.html/.test(value)) {
+      platform = 2;
+      const res = /item\.jd\.com\/(\d+)\.html/.exec(value);
+      id = res[1];
+    } else if (/item\.m\.jd\.com\/product\/(\d+)\.html/.test(value)) {
+      platform = 2;
+      const res = /item\.m\.jd\.com\/product\/(\d+)\.html/.exec(value);
+      id = res[1];
+    } else if (/https?:\/\/u\.jd\.com\/(\w+)/.test(value)) {
+      platform = 2;
+      const res = /https?:\/\/u\.jd\.com\/(\w+)/.exec(value);
+      id = res[0];
+    } else if (/^(\d+)$/.test(value)) {
+      platform = 1;
+      id = `https://item.taobao.com/item.htm?id=${value}`;
+    } else if (value.indexOf("m.tb.cn") > 0) {
+      platform = 1;
+      const res = /m\.tb\.cn\/([a-zA-Z0-9\.]+)/.exec(value);
+      id = `https://${res[0]}`;
+    } if (/^(\d+)$/.test(value)) {
+      id = value;
+      Modal.confirm({
+        title: "请选择平台",
+        okText: "淘宝",
+        cancelText: "京东",
+        onOk: () => {
+          platform = 1;
+          ok();
+        },
+        onCancel: () => {
+          platform = 2;
+          ok();
+        }
+      });
+    } else {
+      message.error("无法识别");
+      return;
     }
-    doSearch(platform.current, id);
+    if (platform !== -1) {
+      ok();
+    }
   }, []);
-
-  const handleSelect = useCallback((value) => {
-    platform.current = typeof value === "string" ? parseInt(value) : value;
-  }, []);
-  useEffect(() => {
-    platform.current = platforms[0];
-  }, [platforms]);
-
-  if (platforms.length === 0) {
-    return <Spin spinning={true} />;
-  }
 
   return (
     <div className="page-rebate">
       <Search
-        addonBefore={
-          <Select defaultValue={platforms[0]} onChange={handleSelect}>
-            {platforms.map((x) => (
-              <Option value={x}>{platformMap[x]}</Option>
-            ))}
-          </Select>
-        }
         enterButton="获取"
         placeholder="输入商品ID或商品链接，支持PC链接、移动链接和短链接"
         loading={loading}
