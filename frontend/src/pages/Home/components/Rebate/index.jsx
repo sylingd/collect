@@ -37,9 +37,9 @@ const Rebate = () => {
       platform = 2;
       const res = /https?:\/\/u\.jd\.com\/(\w+)/.exec(value);
       id = res[0];
-    } else if (/^(\d+)$/.test(value)) {
+    } else if (value.indexOf("https://item.taobao.com/item.htm?") === 0) {
       platform = 1;
-      id = `https://item.taobao.com/item.htm?id=${value}`;
+      id = value;
     } else if (value.indexOf("m.tb.cn") > 0) {
       platform = 1;
       const res = /m\.tb\.cn\/([a-zA-Z0-9\.]+)/.exec(value);
