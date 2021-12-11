@@ -45,16 +45,17 @@ const Rebate = () => {
       const res = /m\.tb\.cn\/([a-zA-Z0-9\.]+)/.exec(value);
       id = `https://${res[0]}`;
     } else if (/^(\d+)$/.test(value)) {
-      id = value;
       Modal.confirm({
         title: "请选择平台",
         okText: "淘宝",
         cancelText: "京东",
         onOk: () => {
+          id = `https://item.taobao.com/item.htm?id=${value}`;
           platform = 1;
           ok();
         },
         onCancel: () => {
+          id = value;
           platform = 2;
           ok();
         }
