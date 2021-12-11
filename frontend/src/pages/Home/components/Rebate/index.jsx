@@ -44,7 +44,7 @@ const Rebate = () => {
       platform = 1;
       const res = /m\.tb\.cn\/([a-zA-Z0-9\.]+)/.exec(value);
       id = `https://${res[0]}`;
-    } if (/^(\d+)$/.test(value)) {
+    } else if (/^(\d+)$/.test(value)) {
       id = value;
       Modal.confirm({
         title: "请选择平台",
