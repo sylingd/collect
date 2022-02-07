@@ -91,7 +91,7 @@ class Taobao {
       return '暂不支持淘宝链接转换，请联系管理员';
     }
 
-    $api = App::$config->get('taobao_api')  . '/convert?url=' . urlencode($url);
+    $api = App::$config->get('taobao_api')  . '/union/convert?url=' . urlencode($url);
     $result = Utils::fetchUrl($api, [
       'json' => true
     ]);
