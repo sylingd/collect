@@ -10,6 +10,7 @@
   },
   "polyfill": false,
   "modularImportRuntime": true,
+  "ignoreHtmlTemplate": true,
   "plugins": [
     [
       "build-plugin-moment-locales",

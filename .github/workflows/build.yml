@@ -25,19 +25,14 @@ jobs:
           path: ${{ steps.yarn-cache-dir-path.outputs.dir }}
           key: ${{ runner.os }}-yarn-${{ hashFiles('**/yarn.lock') }}
           restore-keys: |
-            ${{ runner.os }}-yarn-
+            ${{ runner.os }}-yarn-${{ hashFiles('**/yarn.lock') }}
       - name: Install and build
         run: |
           cd frontend
           yarn install --frozen-lockfile
           npm run build
-      - name: Deploy GitHub Pages
-        uses: JamesIves/github-pages-deploy-action@4.1.4
-        with:
-          branch: gh-pages
-          folder: frontend/build
       - name: Deploy to COS
-        uses: sylingd/tencent-cos-and-cdn-action@0527a81021177ec0eee4e6fc37fbec4b0aafa776
+        uses: sylingd/tencent-cos-and-cdn-action@v1
         with:
           secret_id: ${{ secrets.QCLOUD_SECRET_ID }}
           secret_key: ${{ secrets.QCLOUD_SECRET_KEY }}
